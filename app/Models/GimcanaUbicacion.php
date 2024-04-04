@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Likes extends Model
+class GimcanaUbicacion extends Model
 {
-    protected $fillable = ['usuario_id', 'ubicacion_id'];
+    protected $fillable = ['gimcana_id', 'ubicacion_id', 'orden'];
 
-    public function usuario()
+    public function gimcana()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Gimcana::class);
     }
 
     public function ubicacion()

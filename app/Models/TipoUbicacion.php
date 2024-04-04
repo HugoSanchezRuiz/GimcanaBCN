@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Gimcana extends Model
+class TipoUbicacion extends Model
 {
-    protected $fillable = ['nombre_gimcana'];
+    protected $fillable = ['nombre'];
 
     public function ubicaciones()
     {
-        return $this->hasMany(GimcanaUbicacion::class);
+        return $this->hasMany(Ubicacion::class);
     }
 
     // Más relaciones y métodos según sea necesario
