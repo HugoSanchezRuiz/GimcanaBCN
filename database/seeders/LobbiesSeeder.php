@@ -2,6 +2,7 @@
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Lobbies;
+use Illuminate\Support\Facades\DB;
 
 class LobbiesSeeder extends Seeder
 {
@@ -12,11 +13,9 @@ class LobbiesSeeder extends Seeder
      */
     public function run()
     {
-        // Crear lobbies de ejemplo
-        // Por ejemplo:
-        Lobbies::create([
-            'usuario_id' => 1, // ID del usuario en el lobby
-            'gimcana_id' => 1, // ID de la gimcana en la que está el lobby
+        DB::table('lobbies')->insert([
+            'usuario_id' => 1,
+            'gimcana_id' => 1
         ]);
     }
 }

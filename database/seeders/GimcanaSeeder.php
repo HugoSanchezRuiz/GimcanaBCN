@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Seeder;
 use App\Models\Gimcana;
@@ -14,9 +15,9 @@ class GimcanaSeeder extends Seeder
      */
     public function run()
     {
-        // Crear una gimcana de ejemplo
-        Gimcana::create([
-            'nombre_gimcana' => 'Gimcana Prueba',
+        DB::table('gimcana')->insert([
+            'nombre_gimcana' => 'Gimcana Prueba'
         ]);
+
     }
 }

@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+
 use Illuminate\Database\Seeder;
 use App\Models\Etiqueta;
+use Illuminate\Support\Facades\DB;
+
 
 class EtiquetaSeeder extends Seeder
 {
@@ -14,10 +17,8 @@ class EtiquetaSeeder extends Seeder
      */
     public function run()
     {
-        // Crear etiquetas de ejemplo
-        // Por ejemplo:
-        Etiqueta::create([
-            'nombre' => 'Viaje2024',
+        DB::table('etiquetas')->insert([
+            'nombre' => 'Viaje2024'
         ]);
     }
 }

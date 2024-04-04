@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 
@@ -11,19 +12,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call(UserSeeder::class);
 
-        $this->call([
-            CheckpointSeeder::class,
-            tbl_usuarios::class,
-            tbl_categorias::class,
-            EtiquetaSeeder::class,
-            GimcanaSeeder::class,
-            GimcanaUbicacionSeeder::class,
-            LikeSeeder::class,
-            LobbiesSeeder::class,
-            TipoUbicacionSeeder::class,
-            UbicacionSeeder::class,
-        ]);
+        $this->call(EtiquetaSeeder::class);
+ 
+        $this->call(GimcanaSeeder::class);
+
+        $this->call(LobbiesSeeder::class);
+
+        $this->call(TipoUbicacionSeeder::class);
+  
+        $this->call(UbicacionSeeder::class);
+
+        $this->call(LikesSeeder::class);
+
+        $this->call(GimcanaUbicacionSeeder::class);
+
+        $this->call(CheckpointsSeeder::class);
     }
 }

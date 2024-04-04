@@ -2,6 +2,7 @@
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\TipoUbicacion;
+use Illuminate\Support\Facades\DB;
 
 class TipoUbicacionSeeder extends Seeder
 {
@@ -12,11 +13,9 @@ class TipoUbicacionSeeder extends Seeder
      */
     public function run()
     {
-        // Crear tipos de ubicación de ejemplo
-        // Por ejemplo:
-        TipoUbicacion::create([
-            'nombre' => 'Tipo de Ubicacion de ejemplo',
-            // Ajustar con más datos según sea necesario
+        DB::table('tipo_ubicaciones')->insert([
+            'nombre' => 'Tipo de Ubicacion de ejemplo'
+
         ]);
     }
 }

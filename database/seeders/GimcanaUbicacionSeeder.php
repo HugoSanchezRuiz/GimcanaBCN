@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,12 +16,11 @@ class GimcanaUbicacionSeeder extends Seeder
      */
     public function run()
     {
-        // Crear registros de GimcanaUbicacion de ejemplo
-        // Por ejemplo:
-        GimcanaUbicacion::create([
-            'gimcana_id' => 1, // ID de la gimcana
-            'ubicacion_id' => 1, // ID de la ubicación
-            'orden' => 1, // Orden de la ubicación en la gimcana
+        DB::table('gimcana_ubicaciones')->insert([
+            'gimcana_id' => 1,
+            'ubicacion_id' => 1,
+            'orden' => '1'
         ]);
+
     }
 }

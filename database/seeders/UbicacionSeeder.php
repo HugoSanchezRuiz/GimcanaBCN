@@ -2,6 +2,7 @@
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Ubicacion;
+use Illuminate\Support\Facades\DB;
 
 class UbicacionSeeder extends Seeder
 {
@@ -12,12 +13,11 @@ class UbicacionSeeder extends Seeder
      */
     public function run()
     {
-        // Crear ubicaciones de ejemplo
-        // Por ejemplo:
-        Ubicacion::create([
+        DB::table('ubicaciones')->insert([
             'nombre' => 'Sagrada Familia',
-            'calle' => 'Calle Ejemplo',
-            // Ajustar con más datos según sea necesario
+            'calle' => 'Calle Ejemplo'
+
         ]);
+
     }
 }
