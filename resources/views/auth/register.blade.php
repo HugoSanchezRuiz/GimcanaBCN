@@ -1,7 +1,26 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-
+    <div class="div-login">
+        <div class="image">
+            <div class="title">Descrube el mundo con felicidad.</div>
+        </div>
+        <div class="login">
+            <div class="div">
+                <div class="register-text">¡Bienvenido/a! 😊<br> <p class="subtext">Inserta tus datos para continuar</p></div>
+                <div class="inputs">
+                    <form method="POST" id="registerForm" action="{{ route('register') }}">
+                        @csrf
+                        <label for="email" style="color: black">Email</label>
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                            <x-text-input id="email"  class="input has-background-white input-border" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                            <span class="icon is-small is-left icon-color"><i class="fas fa-envelope"></i></span>
+                            <span class="icon is-small is-right icon-color">
+                            </p>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />

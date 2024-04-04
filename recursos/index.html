@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Enlace de Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <!-- Enlace Iconos FontAwesome-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <div class="div-login">
+        <div class="image">
+            <div class="title">Descubre el mundo con facilidad.</div>
+        </div>
+        <div class="login">
+            <div class="div">
+                <div class="text">¡Bienvenido de vuelta!<br>
+                    <p class="subtext">Inserta tus datos para continuar</p>
+                </div>
+                <div class="inputs">
+                    <form action="" id="loginForm">
+                        <label for="email" style="color: black">Email</label>
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                                <input class="input has-background-white input-border" type="text" name="email" id="email" />
+                                <span class="icon is-small is-left icon-color"><i class="fas fa-envelope"></i></span>
+                                <span class="icon is-small is-right icon-color"><i class="fas fa-check"></i></span>
+                            </p>
+                        </div>
+                        <p id="emailError" class="error"></p>
+                        <!-- PASSWORD -->
+                        <label for="password" style="color: black">Password</label>
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input class="input has-background-white input-border" type="password" name="password" id="password" />
+                                <span class="icon is-small is-left icon-color">
+                            <i class="fas fa-lock is-black"></i>
+                        </span>
+                            </p>
+                        </div>
+                        <p id="passwordError" class="error"></p>
+                        <div class="submit">
+                            <input type="submit" class="button is-primary is-rounded is-fullwidth submit-button" value="Entrar">
+                        </div>
+                        <a href="./registrar.html">¿No eres usuario? ¡Regístrate!</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var emailField = document.getElementById('email');
+        var passwordField = document.getElementById('password');
+        var form = document.getElementById('loginForm');
+
+        var email = document.getElementById("email").value;
+        var contrasena = document.getElementById("password").value;
+
+        var emailError = document.getElementById('emailError');
+        var contrasenaError = document.getElementById('passwordError');
+
+        const patronEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // Formato de email
+        const patronContrasena = /^(?=.*\d)(?=.*[A-Z])[0-9a-zA-Z]{8,}$/; // Al menos 1 número, 1 mayúscula, mínimo 8 caracteres
+
+        // Validaciones email
+        emailField.addEventListener('blur', function() {
+            const email = emailField.value;
+            if (email === "") {
+                emailError.innerHTML = "Ingresa un correo electrónico.";
+                emailField.style.borderColor = '#187786';
+            } else if (!patronEmail.test(email)) {
+                emailError.innerHTML = "El email no es válido, debe estar escrito con la siguiente pauta: ejemplo@ejemplo.com";
+                emailField.style.borderColor = '#187786';
+            } else {
+                emailError.innerHTML = "";
+            }
+        });
+
+        // Validaciones contraseña
+        passwordField.addEventListener('blur', function() {
+            const contrasena = passwordField.value;
+            if (contrasena === "") {
+                contrasenaError.innerHTML = "Ingresa una contraseña.";
+                passwordField.style.borderColor = '#187786';
+            } else if (!patronContrasena.test(contrasena)) {
+                contrasenaError.innerHTML = "La contraseña debe tener al menos 1 número, 1 mayúscula y mínimo 8 carácteres.";
+                passwordField.style.borderColor = '#187786';
+            } else {
+                contrasenaError.innerHTML = "";
+            }
+        });
+
+
+        form.addEventListener('submit', function(event) {
+            const email = emailField.value.trim();
+            const contrasena = passwordField.value.trim();
+
+            // Restablecer los mensajes de error
+            emailError.innerHTML = "";
+            contrasenaError.innerHTML = "";
+
+            // Validaciones email
+            if (email === "") {
+                emailError.innerHTML = "Ingresa un correo electrónico.";
+                emailField.style.borderColor = '#187786';
+                event.preventDefault();
+            } else if (!patronEmail.test(email)) {
+                emailError.innerHTML = "El email no es válido, debe estar escrito con la siguiente pauta: ejemplo@ejemplo.com";
+                emailField.style.borderColor = '#187786';
+                event.preventDefault();
+            }
+
+            // Validaciones contraseña
+            if (contrasena === "") {
+                contrasenaError.innerHTML = "Ingresa una contraseña.";
+                passwordField.style.borderColor = '#187786';
+                event.preventDefault();
+            } else if (!patronContrasena.test(contrasena)) {
+                contrasenaError.innerHTML = "La contraseña debe tener al menos 1 número, 1 mayúscula y mínimo 8 caracteres.";
+                passwordField.style.borderColor = '#187786';
+                event.preventDefault();
+            }
+        });
+    });
+</script> -->
+
+</html>

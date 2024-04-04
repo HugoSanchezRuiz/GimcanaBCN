@@ -1,0 +1,192 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to bottom, #6abea0, #285d4e);
+}
+
+.div-login {
+    width: 100vh;
+    height: 80vh;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.div-login .image {
+    width: 60%;
+    height: 100%;
+    background-image: url('../img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px 0 0 16px;
+    position: relative;
+}
+
+.div-login .image::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 14px 0 0 14px;
+}
+
+.div-login .title {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 80%;
+}
+
+.div-login .login {
+    width: 40%;
+    height: 100%;
+    background-color: rgb(247, 247, 247);
+    border-radius: 0px 15px 15px 0px;
+    position: relative;
+    text-align: left;
+}
+
+.div-login .div {
+    margin-left: 4rem;
+    margin-right: 3rem;
+}
+
+.div-login .text {
+    color: black;
+    font-size: 32px;
+    margin-top: 6rem;
+    padding: 8px;
+}
+
+.div-login .register-text {
+    color: black;
+    font-size: 32px;
+    margin-top: 3rem;
+    padding: 8px;
+}
+
+.div-login .subtext {
+    color: rgb(112, 111, 111);
+    font-size: 14px;
+}
+
+.div-login .inputs {
+    margin-top: 2rem;
+}
+
+.div-login .input-border {
+    border-color: #CCCCCC;
+    color: black;
+}
+
+.div-login .submit-button {
+    background: linear-gradient(to bottom, #16b9c4, #1595a5);
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.div-login .submit {
+    margin-top: 5px;
+    padding: 2px;
+}
+
+a {
+    font-size: 12px;
+    text-align: right;
+    color: #16b9c4;
+}
+
+.error {
+    font-size: 10px;
+    text-align: right;
+    color: #187786;
+}
+
+@media screen and (max-width: 1000px) {
+    .div-login .div {
+        margin-left: 0.5rem;
+        margin-right: 1rem;
+    }
+
+    .div-login .title {
+    font-size: 24px;
+    }
+
+    .div-login .text {
+    margin-top: 1rem;
+    }
+
+    .div-login .register-text {
+        font-size: 20px;
+        margin-top: 0rem;
+    }
+
+    .div-login .inputs {
+        margin-top: 0rem;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .div-login {
+        flex-direction: column;
+        width: 87%;
+        height: 95vh;
+    }
+    
+    .div-login .image {
+        width: 100%;
+        height: 40%;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .div-login .image::before {
+    border-radius: 14px 14px 0 0;
+    }
+    
+    .div-login .login {
+        width: 100%;
+        height: 80%;
+        border-radius: 0 0 16px 16px;
+    }
+    
+    .div-login .div {
+        margin: 1rem;
+    }
+
+    .div-login .text {
+    margin-top: 0rem;
+    }
+
+    .div-login .register-text {
+        margin-top: 0rem;
+        font-size: 24px;
+    }
+    
+    .div-login .title {
+        font-size: 24px;
+    }
+
+    .div-login .title {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .div-login .inputs {
+    margin-top: 1rem;
+    }
+}

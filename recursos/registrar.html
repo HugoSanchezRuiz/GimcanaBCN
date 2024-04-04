@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar</title>
+    <!-- Enlace de Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <!-- Enlace Iconos FontAwesome-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <div class="div-login">
+        <div class="image">
+            <div class="title">Descubre el mundo con facilidad.</div>
+        </div>
+        <div class="login">
+            <div class="div">
+                <div class="register-text">¡Bienvenido/a! 😊<br>
+                    <p class="subtext">Inserta tus datos para continuar</p>
+                </div>
+                <div class="inputs">
+                    <form action="" id="registerForm">
+                        <!-- EMAIL -->
+                        <label for="email" style="color: black">Email</label>
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                                <input class="input has-background-white input-border" type="text" name="email" id="email"/>
+                                <span class="icon is-small is-left icon-color"><i class="fas fa-envelope"></i></span>
+                                <span class="icon is-small is-right icon-color">
+                            <i class="fas fa-check"></i>
+                        </span>
+                            </p>
+                        </div>
+                        <p id="emailError" class="error"></p>
+                        <!-- PASSWORD -->
+                        <label for="password" style="color: black">Password</label>
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input class="input has-background-white input-border" type="password" name='password' id="password" />
+                                <span class="icon is-small is-left icon-color">
+                            <i class="fas fa-lock is-black"></i>
+                        </span>
+                            </p>
+                        </div>
+                        <p id="passwordError" class="error"></p>
+                        <!-- PASSWORD 2 -->
+                        <label for="password" style="color: black">Repeat Password</label>
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input class="input has-background-white input-border" type="password" name='password2' id="password2" />
+                                <span class="icon is-small is-left icon-color">
+                            <i class="fas fa-lock is-black"></i>
+                        </span>
+                            </p>
+                        </div>
+                        <p id="password2Error" class="error"></p>
+                        <div class="submit">
+                            <input type="submit" class="button is-primary is-rounded is-fullwidth submit-button" value="Entrar">
+                        </div>
+
+                        <a href="./index.html">¿Ya eres un usuario? Inicia Sesión</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var emailField = document.getElementById('email');
+            var passwordField = document.getElementById('password');
+            var passwordField2 = document.getElementById('password2');
+
+            var form = document.getElementById('registerForm');
+            var emailError = document.getElementById('emailError');
+            var contrasenaError = document.getElementById('passwordError');
+            var contrasena2Error = document.getElementById('password2Error');
+
+            const patronEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // Patrón del correo electrónico
+            const patronContrasena = /^(?=.*\d)(?=.*[A-Z])[0-9a-zA-Z]{8,}$/; // Al menos 1 número, 1 mayúscula, mínimo 8 caracteres
+
+
+            contrasenaError.innerHTML = "";
+            contrasena2Error.innerHTML = "";
+
+
+            // Validaciones email
+            emailField.addEventListener('keyup', function() {
+                const email = emailField.value;
+            if (email === "") {
+                emailError.innerHTML = "Ingresa un correo electrónico.";
+                emailField.style.borderColor = '#187786';
+            } else if (!patronEmail.test(email)) {
+                emailError.innerHTML = "El email no es válido, debe estar escrito con la siguiente pauta: ejemplo@ejemplo.com";
+                emailField.style.borderColor = '#187786';
+            } else {
+                emailError.innerHTML = "";
+                emailField.style.borderColor = '#CCCCCC';
+            }
+            });
+
+            // Validaciones contraseña
+            passwordField.addEventListener('keyup', function(){
+                const contrasena = passwordField.value;
+            if (contrasena === "") {
+                contrasenaError.innerHTML = "Ingresa una contraseña.";
+                passwordField.style.borderColor = '#187786';
+            } else if (!patronContrasena.test(contrasena)) {
+                contrasenaError.innerHTML = "La contraseña debe tener al menos 1 número, 1 mayúscula y mínimo 8 carácteres.";
+                passwordField.style.borderColor = '#187786';
+            } else {
+                contrasenaError.innerHTML = "";
+                passwordField.style.borderColor = '#CCCCCC';
+                
+            }
+            });
+
+            passwordField2.addEventListener('keyup', function() {
+                const contrasena = passwordField.value;
+                const contrasena2 = passwordField2.value;
+
+                if (contrasena2 === "") {
+                    contrasena2Error.innerHTML = "Ingresa la anterior contraseña.";
+                    passwordField2.style.borderColor = '#187786';
+                } else if (contrasena !== contrasena2) {
+                    contrasena2Error.innerHTML = "Las contraseñas no coinciden.";
+                    passwordField2.style.borderColor = '#187786';
+                } else {
+                    contrasena2Error.innerHTML = "";
+                    passwordField2.style.borderColor = '#CCCCCC';
+                }
+            });
+
+
+            form.addEventListener('submit', function(event) {
+                const email = emailField.value.trim();
+                const contrasena = passwordField.value.trim();
+                const contrasena2 = passwordField2.value.trim();
+
+                // Restablecer los mensajes de error
+                emailError.innerHTML = "";
+                contrasenaError.innerHTML = "";
+                contrasena2Error.innerHTML = "";
+
+                // Validaciones email
+                if (email === "") {
+                    emailError.innerHTML = "Ingresa un correo electrónico.";
+                    emailField.style.borderColor = '#187786';
+                    event.preventDefault();
+                } else if (!patronEmail.test(email)) {
+                    emailError.innerHTML = "El email no es válido, debe estar escrito con la siguiente pauta: ejemplo@ejemplo.com";
+                    emailField.style.borderColor = '#187786';
+                    event.preventDefault();
+                }
+
+                // Validaciones contraseña
+                if (contrasena === "") {
+                    contrasenaError.innerHTML = "Ingresa una contraseña.";
+                    passwordField.style.borderColor = '#187786';
+                    event.preventDefault();
+                } else if (!patronContrasena.test(contrasena)) {
+                    contrasenaError.innerHTML = "La contraseña debe tener al menos 1 número, 1 mayúscula y mínimo 8 caracteres.";
+                    passwordField.style.borderColor = '#187786';
+                    event.preventDefault();
+                }
+
+                // Validación de las contraseñas coincidentes
+                if (contrasena2 === "") {
+                    contrasena2Error.innerHTML = "Ingresa la contraseña nuevamente.";
+                    passwordField2.style.borderColor = '#187786';
+                    event.preventDefault();
+                } else if (contrasena !== contrasena2) {
+                    contrasena2Error.innerHTML = "Las contraseñas no coinciden.";
+                    passwordField2.style.borderColor = '#187786';
+                    event.preventDefault();
+                }
+            });
+
+    });
+</script>
+</html>
