@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\MapController;
 
+use App\Http\Controllers\UbicacionController;
+
 
 Route::get('/admin', function () {
     return view('admin.index');
@@ -26,6 +28,10 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/admin', [MapController::class, 'index'])->name('admin.index');
+
+
+Route::post('/guardar-ubicacion', [UbicacionController::class, 'guardarUbicacion'])->name('guardar-ubicacion');
+
 
 
 

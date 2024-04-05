@@ -9,26 +9,25 @@ class UbicacionController extends Controller
 {
     public function guardarUbicacion(Request $request)
     {
-        dd($request->all()); // Verificar los datos recibidos
-        // Obtener todos los datos del formulario
-        $datos = $request->all();
+        // Validar los datos recibidos del formulario
+        $request->validate([
+            'nombre' => 'required|string',
+            'latitud' => 'required|numeric',
+            'longitud' => 'required|numeric',
+        ]);
 
         // Crear una nueva instancia de Ubicacion con los datos recibidos
         $ubicacion = new Ubicacion([
-            'nombre' => $datos['nombre'],
-            'calle' => $datos['calle'],
-            'num_calle' => $datos['num_calle'],
-            'ciudad' => $datos['ciudad'],
-            'Pista' => '', // Dejarlo vacío como solicitaste
-            'contador_likes' => 0, // Dejarlo vacío como solicitaste
-            'tipo_ubicacion_id' => '', // Dejarlo vacío como solicitaste
-            'latitud' => $datos['latitud'],
-            'longitud' => $datos['longitud'],
+            'nombre' => $request->input('nombre'),
+            'latitud' => $request->input('latitud'),
+            'longitud' => $request->input('longitud'),
+            // Puedes agregar otros campos aquí si es necesario
         ]);
 
         // Guardar la ubicación en la base de datos
         $ubicacion->save();
 
+        // Retornar una respuesta JSON indicando que la ubicación fue guardada exitosamente
         return response()->json(['message' => 'Ubicación guardada exitosamente']);
     }
 }
