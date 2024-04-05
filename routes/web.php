@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UbicacionController;
+use App\Http\Controllers\Admin\MapController;
 
 
 Route::get('/admin', function () {
@@ -24,7 +24,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/guardar-ubicacion', [UbicacionController::class, 'guardarUbicacion'])->name('guardar-ubicacion');
+
+Route::get('/admin', [MapController::class, 'index'])->name('admin.index');
+
+
+
 
 
 
