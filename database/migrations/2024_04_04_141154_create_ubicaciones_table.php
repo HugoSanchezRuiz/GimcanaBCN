@@ -20,6 +20,8 @@ class CreateUbicacionesTable extends Migration
             $table->unsignedBigInteger('tipo_ubicacion_id')->nullable();
             $table->string('latitud', 255)->nullable();
             $table->string('longitud', 255)->nullable();
+            $table->string('descripcion', 255)->nullable();
+            $table->string('imagen', 255)->nullable();
             $table->timestamps();
 
             $table->foreign('tipo_ubicacion_id')->references('id')->on('tipo_ubicaciones');
