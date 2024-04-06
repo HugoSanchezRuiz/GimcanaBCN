@@ -2,37 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TipoUbicacion;
 use Illuminate\Http\Request;
-use App\Models\Ubicacion;
+use App\Models\TipoUbicacion;
 
-
-
-class LocationController extends Controller
+class TipoLocationController extends Controller
 {
-    // public function index()
-    // {
-    //     // Obtener todas las ubicaciones
-    //     $locations = Ubicacion::all();
-
-    //     // Devolver la vista con las ubicaciones
-    //     return view('admin.index', compact('locations'));
-    // }
-
-    public function getLocations()
+    public function getTipoLocations()
     {
         // Obtener todas las ubicaciones
-        $locations = Ubicacion::all();
+        $tipolocations = TipoUbicacion::all();
 
         // Devolver las ubicaciones en formato JSON
-        return response()->json($locations);
+        return response()->json($tipolocations);
     }
 
     public function destroy($id)
     {
         try {
             // Buscar la ubicación por su ID
-            $location = Ubicacion::findOrFail($id);
+            $location = TipoUbicacion::findOrFail($id);
             
             // Eliminar la ubicación
             $location->delete();
@@ -41,7 +29,7 @@ class LocationController extends Controller
             return response()->json('ok');
         } catch (\Exception $e) {
             // Manejar cualquier error y devolver una respuesta de error
-            return response()->json(['error' => 'Error al eliminar la ubicación'], 500);
+            return response()->json(['error' => 'Error al eliminar el tipo de ubicación'], 500);
         }
     }
     
@@ -50,13 +38,15 @@ class LocationController extends Controller
     {
         try {
             // Buscar la ubicación por su ID
-            $location = Ubicacion::find($id);
+            $location = TipoUbicacion::find($id);
 
             // Devolver la vista de edición con la ubicación
             return view('admin.edit', compact('location'));
         } catch (\Exception $e) {
             // Manejar cualquier error y redirigir con un mensaje de error
-            return redirect()->view('admin.index')->with('error', 'Error al cargar la ubicación para editar');
+            return redirect()->view('admin.index')->with('error', 'Error al cargar el tipo de ubicación para editarla');
         }
     }
+
+
 }
