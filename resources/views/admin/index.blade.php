@@ -170,6 +170,73 @@
 
       var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
+
+            // Obtener la ubicación actual del usuario
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Crear marcador en la ubicación actual del usuario
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Tu ubicación actual',
+                        icon: {
+                            url: "{{ asset('img/marcadoradmin1.png') }}", // Ruta de la imagen del marcador
+                            scaledSize: new google.maps.Size(40, 40) // Tamaño del icono
+                        },
+                        optimized: false, // Desactivar la optimización de la imagen para que se apliquen los estilos
+                    });
+
+
+// Función para animar el círculo
+function expandCircle() {
+    var circle = new google.maps.Circle({
+        strokeColor: '#0000FF',
+        strokeOpacity: 0.3,
+        strokeWeight: 2,
+        fillColor: '#0000FF',
+        fillOpacity: 0.1,
+        map: map,
+        center: userLocation,
+        radius: 0 // Inicia con radio 0 para la animación
+    });
+
+    function animate() {
+        var currentRadius = circle.getRadius();
+        if (currentRadius < 700) { // Define el radio máximo que deseas alcanzar
+            circle.setRadius(currentRadius + 100); // Incrementa el radio en 100 metros
+        } else {
+            clearInterval(animationInterval); // Detiene la animación cuando alcanza el radio máximo
+            setTimeout(function() {
+                // Desaparecer el círculo durante 2 segundos antes de reiniciar la animación
+                circle.setRadius(0); // Establecer el radio a 0 para que desaparezca
+                setTimeout(expandCircle, 1000); // Reinicia la animación después de 2 segundos
+            }, 1000); // Espera 2 segundos antes de desaparecer el círculo
+        }
+    }
+
+    // Iniciar la animación
+    var animationInterval = setInterval(animate, 100); // Se ejecuta cada 100 milisegundos
+}
+
+expandCircle(); // Iniciar la animación por primera vez
+
+                }, function () {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                // El navegador no soporta la geolocalización
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+
+
+
+
+
       @foreach ($ubicaciones as $ubicacion)
           addMarker({{ $ubicacion->latitud }}, {{ $ubicacion->longitud }}, '{{ $ubicacion->nombre }}', '{{ asset("img/$ubicacion->imagen") }}', '{{ $ubicacion->ciudad }}', '{{ $ubicacion->calle }}', '{{ $ubicacion->num_calle }}', '{{ $ubicacion->codigo_postal }}', '{{ $ubicacion->descripcion }}');
       @endforeach
@@ -299,7 +366,8 @@ error: function(xhr, status, error) {
 
     });
 }
-  }
+}
+  
 
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbC3X4maTF6z_6nTvnCgRdFcB3wGj4b4w&callback=initMap"></script>
