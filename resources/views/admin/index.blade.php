@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
             padding: 0;
@@ -38,6 +38,17 @@
             <!-- Aquí se insertará la tabla de ubicaciones -->
         </table>
 
+        <div class="modal fade" id="editLocationModal" tabindex="-1" aria-labelledby="editLocationModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <!-- Aquí se insertará el formulario de edición de ubicación -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
@@ -46,6 +57,19 @@
         <table id="tipo-ubicaciones-table">
             <!-- Aquí se insertará la tabla de tipos de ubicaciones -->
         </table>
+    </div>
+
+    <div class="modal fade" id="editTipoUbicacionModal" tabindex="-1" aria-labelledby="editTipoUbicacionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-body1">
+                        <!-- Aquí se insertará el formulario de edición de tipo de ubicación -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -80,18 +104,18 @@
                     data.forEach(location => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                    <td>${location.id}</td>
-                    <td>${location.nombre}</td>
-                    <td>${location.calle}, ${location.num_calle}, ${location.ciudad}</td>
-                    <td>${location.pista}</td>
-                    <td>${location.tipo_ubicacion_id}</td>
-                    <td>${location.latitud}</td>
-                    <td>${location.longitud}</td>
-                    <td>
-                        <button onclick="editLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/editar.png') }}" alt="editar" width="50px" height="50px"></button>
-                        <button onclick="deleteLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/eliminar.png') }}" alt="eliminar" width="50px" height="50px"></button>
-                    </td>
-                `;
+                <td>${location.id}</td>
+                <td>${location.nombre ? location.nombre : '-'}</td>
+                <td>${location.calle}, ${location.num_calle}, ${location.ciudad}</td>
+                <td>${location.pista ? location.pista : '-'}</td>
+                <td>${location.tipo_ubicacion && location.tipo_ubicacion.nombre ? location.tipo_ubicacion.nombre : '-'}</td>
+                <td>${location.latitud}</td>
+                <td>${location.longitud}</td>
+                <td>
+                    <button onclick="editLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/editar.png') }}" alt="editar" width="50px" height="50px"></button>
+                    <button onclick="deleteLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/eliminar.png') }}" alt="eliminar" width="50px" height="50px"></button>
+                </td>
+            `;
                         locationsTable.appendChild(row);
                     });
                 })
@@ -124,7 +148,7 @@
                         row.innerHTML = `
                     <td>${tipoUbicacion.id}</td>
                     <td>${tipoUbicacion.nombre}</td>
-                    <td><img src="{{ asset('img/${tipoUbicacion.logo}.png') }}" style="max-width: 100px; max-height: 100px;" alt="Logo"></td>
+                    <td><img src="{{ asset('img/${tipoUbicacion.logo}') }}" style="max-width: 100px; max-height: 100px;" alt="Logo"></td>
                     <td>
                         <button onclick="editTipoUbicacion('${tipoUbicacion.nombre}', ${tipoUbicacion.id})"><img src="{{ asset('img/editar.png') }}" alt="editar" width="50px" height="50px"></button>
                         <button onclick="deleteTipoUbicacion('${tipoUbicacion.nombre}', ${tipoUbicacion.id})"><img src="{{ asset('img/eliminar.png') }}" alt="eliminar" width="50px" height="50px"></button>
@@ -150,6 +174,7 @@
                 cancelButtonText: "No"
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Realizar una solicitud Ajax para obtener los datos de la ubicación a editar
                     fetch(`/ubicaciones/${locationId}/edit`)
                         .then(response => {
                             if (!response.ok) {
@@ -161,7 +186,6 @@
                             // Aquí puedes utilizar los datos de la ubicación para actualizar la interfaz de usuario
                             console.log('Datos de la ubicación a editar:', locationData);
 
-                            // Por ejemplo, puedes abrir un modal y mostrar los datos de la ubicación
                             openEditLocationModal(locationData);
                         })
                         .catch(error => {
@@ -175,6 +199,111 @@
                 }
             });
         }
+
+
+        function openEditLocationModal(locationData) {
+            // Obtener el modal
+            var modal = document.getElementById('editLocationModal');
+
+            // Crear el contenido del modal (formulario de edición de ubicación)
+            var modalContent = `
+        <form id="editLocationForm">
+            <!-- Campos del formulario para editar los datos de la ubicación -->
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="${locationData.nombre}" required>
+
+            <label for="calle">Calle:</label>
+            <input type="text" id="calle" name="calle" value="${locationData.calle}" required>
+
+            <label for="num_calle">Número de Calle:</label>
+            <input type="text" id="num_calle" name="num_calle" value="${locationData.num_calle}" required>
+
+            <label for="codigo_postal">Código Postal:</label>
+            <input type="text" id="codigo_postal" name="codigo_postal" value="${locationData.codigo_postal}" required>
+
+            <label for="ciudad">Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad" value="${locationData.ciudad}" required>
+
+            <label for="pista">Pista:</label>
+            <input type="text" id="pista" name="pista" value="${locationData.pista}" required>
+
+            <label for="contador_likes">Contador de Likes:</label>
+            <input type="text" id="contador_likes" name="contador_likes" value="${locationData.contador_likes}" required>
+
+            <label for="tipo_ubicacion_id">ID del Tipo de Ubicación:</label>
+            <input type="text" id="tipo_ubicacion_id" name="tipo_ubicacion_id" value="${locationData.tipo_ubicacion_id}" required>
+
+            <label for="latitud">Latitud:</label>
+            <input type="text" id="latitud" name="latitud" value="${locationData.latitud}" required>
+
+            <label for="longitud">Longitud:</label>
+            <input type="text" id="longitud" name="longitud" value="${locationData.longitud}" required>
+
+            <label for="descripcion">Descripción:</label>
+            <input type="text" id="descripcion" name="descripcion" value="${locationData.descripcion}" required>
+
+            <label for="imagen">Imagen:</label>
+            <input type="text" id="imagen" name="imagen" value="${locationData.imagen}" required>
+
+            <!-- Botón para enviar el formulario y actualizar la ubicación -->
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+        </form>`;
+
+            // Insertar el contenido en el cuerpo del modal
+            modal.querySelector('.modal-body').innerHTML = modalContent;
+
+            // Mostrar el modal
+            var modalInstance = new bootstrap.Modal(modal);
+            modalInstance.show();
+
+            // Manejar el envío del formulario
+            modal.querySelector('#editLocationForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                // Obtener los datos del formulario
+                var formData = new FormData(this);
+
+                // Realizar una solicitud Ajax para actualizar la ubicación
+                fetch(`/ubicaciones/${locationData.id}/update`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        },
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al actualizar la ubicación');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Actualizar la interfaz de usuario según sea necesario
+                        console.log('Ubicación actualizada:', data);
+                        // Cerrar el modal
+                        modalInstance.hide();
+                        // Actualizar la lista de ubicaciones
+                        fetchLocations(); // Esta función actualiza la tabla de ubicaciones
+                        // Mostrar un mensaje de éxito
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Ubicación Actualizada',
+                            showCancelButton: false,
+                            timer: 1500
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error al actualizar la ubicación:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error al actualizar la ubicación'
+                        });
+                    });
+            });
+        }
+
+
 
 
         // Función para eliminar una ubicación
@@ -290,6 +419,7 @@
                 cancelButtonText: "No"
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Realizar una solicitud Ajax para obtener los datos del tipo de ubicación a editar
                     fetch(`/tipo-ubicaciones/${tipoUbicacionId}/edit`)
                         .then(response => {
                             if (!response.ok) {
@@ -301,7 +431,6 @@
                             // Aquí puedes utilizar los datos del tipo de ubicación para actualizar la interfaz de usuario
                             console.log('Datos del tipo de ubicación a editar:', tipoUbicacionData);
 
-                            // Por ejemplo, puedes abrir un modal y mostrar los datos del tipo de ubicación
                             openEditTipoUbicacionModal(tipoUbicacionData);
                         })
                         .catch(error => {
@@ -313,6 +442,79 @@
                             });
                         });
                 }
+            });
+        }
+
+        function openEditTipoUbicacionModal(tipoUbicacionData) {
+            // Obtener el modal
+            var modal = document.getElementById('editTipoUbicacionModal');
+
+            // Crear el contenido del modal (formulario de edición de tipo de ubicación)
+            var modalContent = `
+        <form id="editTipoUbicacionForm">
+            <!-- Campos del formulario para editar los datos del tipo de ubicación -->
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="${tipoUbicacionData.nombre}" required>
+
+            <label for="logo">Logo:</label>
+            <input type="text" id="logo" name="logo" value="${tipoUbicacionData.logo}" required>
+
+            <!-- Botón para enviar el formulario y actualizar el tipo de ubicación -->
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+        </form>`;
+
+            // Insertar el contenido en el cuerpo del modal
+            modal.querySelector('.modal-body1').innerHTML = modalContent;
+
+            // Mostrar el modal
+            var modalInstance = new bootstrap.Modal(modal);
+            modalInstance.show();
+
+            // Manejar el envío del formulario
+            modal.querySelector('#editTipoUbicacionForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                // Obtener los datos del formulario
+                var formData = new FormData(this);
+
+                // Realizar una solicitud Ajax para actualizar el tipo de ubicación
+                fetch(`/tipo-ubicaciones/${tipoUbicacionData.id}/update`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        },
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al actualizar el tipo de ubicación');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Actualizar la interfaz de usuario según sea necesario
+                        console.log('Tipo de ubicación actualizado:', data);
+                        // Cerrar el modal
+                        modalInstance.hide();
+                        // Actualizar la lista de tipos de ubicaciones
+                        fetchTipoUbicaciones();
+                        fetchLocations();
+                        // Mostrar un mensaje de éxito
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Tipo de Ubicación Actualizado',
+                            showCancelButton: false,
+                            timer: 1500
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error al actualizar el tipo de ubicación:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error al actualizar el tipo de ubicación'
+                        });
+                    });
             });
         }
     </script>

@@ -15,7 +15,7 @@ class Ubicacion extends Model
 
     public function tipoUbicacion()
     {
-        return $this->belongsTo(TipoUbicacion::class);
+        return $this->belongsTo(TipoUbicacion::class, 'tipo_ubicacion_id');
     }
 
     public function likes()

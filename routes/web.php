@@ -5,9 +5,9 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TipoLocationController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/admin', function () {
-    return view('admin.index');
-});
+// Route::get('/admin', function () {
+//     return view('admin.index');
+// })->name('admin.index');
 
 
 Route::middleware('guest')->group(function () {
@@ -24,14 +24,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route::get('/ubicaciones', [LocationController::class, 'index'])->name('index');
+Route::get('/admin', [LocationController::class, 'index'])->name('admin.index');
 Route::get('/get-locations', [LocationController::class, 'getLocations'])->name('getLocations');
 Route::get('/get-tipo-ubicaciones', [TipoLocationController::class, 'getTipoLocations'])->name('getTipoLocations');
 Route::delete('/ubicaciones/{id}', [LocationController::class, 'destroy'])->name('destroy');
 Route::get('/ubicaciones/{id}/edit', [LocationController::class, 'edit'])->name('edit');
+Route::post('/ubicaciones/{id}/update', [LocationController::class, 'update'])->name('update');
+
+
 
 Route::delete('/tipo-ubicaciones/{id}', [TipoLocationController::class, 'destroy'])->name('destroy');
 Route::get('/tipo-ubicaciones/{id}/edit', [TipoLocationController::class, 'edit'])->name('edit');
+Route::post('/tipo-ubicaciones/{id}/update', [TipoLocationController::class, 'update'])->name('update');
 
 
 require __DIR__.'/auth.php';
