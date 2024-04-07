@@ -12,6 +12,12 @@
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
     <!-- ICONO -->
     <link rel="icon" type="image/png" href="{{ asset('img/icon.png') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbC3X4maTF6z_6nTvnCgRdFcB3wGj4b4w&callback=initMap"></script>
+
+
 
     <style>
         .column-2 {
@@ -49,6 +55,35 @@
           height: 120px;
           width: auto;
         }
+
+
+        /* Estilos para el contenido del infoWindow */
+.info-window {
+    max-width: 300px;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.info-window h2 {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.info-window img {
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.info-window p {
+    margin: 5px 0;
+    line-height: 1.5;
+}
+
+.info-window p strong {
+    font-weight: bold;
+}
+
     </style>
 </head>
 
@@ -126,104 +161,147 @@
       var mapOptions = {
           center: { lat: 41.4036, lng: 2.1744 }, // Coordenadas centrales del mapa
           zoom: 12, // Nivel de zoom inicial
-          fullscreenControl: false, // Oculta el botón de pantalla completa
           styles: [
               { elementType: "labels", stylers: [{ visibility: "off" }] } // Oculta todas las etiquetas, incluidos los nombres de las ciudades
           ]
       };
+      
+      
 
       var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
       @foreach ($ubicaciones as $ubicacion)
-          addMarker({{ $ubicacion->latitud }}, {{ $ubicacion->longitud }}, '{{ $ubicacion->nombre }}', '{{ $ubicacion->Pista }}');
+          addMarker({{ $ubicacion->latitud }}, {{ $ubicacion->longitud }}, '{{ $ubicacion->nombre }}', '{{ asset("img/$ubicacion->imagen") }}', '{{ $ubicacion->ciudad }}', '{{ $ubicacion->calle }}', '{{ $ubicacion->num_calle }}', '{{ $ubicacion->codigo_postal }}', '{{ $ubicacion->descripcion }}');
       @endforeach
 
-      function addMarker(lat, lng, nombre, pista) {
-          var ubicacionMarker = new google.maps.Marker({
-              position: {lat: lat, lng: lng},
-              map: map,
-              title: nombre
-          });
+      function addMarker(lat, lng, nombre, imagen, ciudad, calle, numCalle, codigoPostal, descripcion) {
+    var ubicacionMarker = new google.maps.Marker({
+        position: {lat: lat, lng: lng},
+        map: map,
+        title: nombre
+    });
 
-          var infoWindowContent = '<div>' +
-                                  '<h2>' + nombre + '</h2>' +
-                                  '<p>' + pista + '</p>' +
-                                  '</div>';
+    var infoWindowContent = '<div class="info-window">' +
+                        '<h2 style="color: black;">' + nombre + '</h2>' +
+                        '<img src="' + imagen + '" alt="Imagen de ubicación">' +
+                        '<p><strong style="color: black;">Ciudad:</strong> <span style="color: grey;">' + ciudad + '</span></p>' +
+                        '<p><strong style="color: black;">Calle:</strong> <span style="color: grey;">' + calle + '</span></p>' +
+                        '<p><strong style="color: black;">Número de Calle:</strong> <span style="color: grey;">' + numCalle + '</span></p>' +
+                        '<p><strong style="color: black;">Código Postal:</strong> <span style="color: grey;">' + codigoPostal + '</span></p>' +
+                        '<p><span style="color: grey;">' + descripcion + '</span></p>' +
+                        '</div>';
 
-          var infoWindow = new google.maps.InfoWindow({
-              content: infoWindowContent
-          });
 
-          ubicacionMarker.addListener('click', function() {
-              infoWindow.open(map, ubicacionMarker);
-          });
-      }
+    var infoWindow = new google.maps.InfoWindow({
+        content: infoWindowContent
+    });
 
-      // Evento de clic en el mapa para agregar una nueva ubicación
-      map.addListener('dblclick', function(event) {
-          swal({
-              text: '¿Quieres guardar esta ubicación?',
-              content: {
-                  element: "input",
-                  attributes: {
-                      placeholder: "Nombre de la ubicación",
-                      type: "text",
-                  },
-              },
-              buttons: {
-                  confirm: {
-                      text: "Aceptar",
-                      value: true,
-                      closeModal: true,
-                  },
-                  cancel: "Cancelar",
-              },
-          }).then((value) => {
-              if (value) {
-                  var nombre = value.trim();
-                  if (nombre !== "") {
-                      var latlng = event.latLng;
+    ubicacionMarker.addListener('click', function() {
+        infoWindow.open(map, ubicacionMarker);
+    });
+}
 
-                      // Envía los datos al servidor para guardar la ubicación
-                      guardarUbicacion(nombre, latlng.lat(), latlng.lng());
-                  } else {
-                      swal("Error", "Debe ingresar un nombre válido para la ubicación.", "error");
-                  }
-              }
-          });
-      });
+
+// Evento de clic en el mapa para agregar una nueva ubicación
+map.addListener('click', function(event) {
+    swal({
+        text: '¿Quieres guardar esta ubicación?',
+        content: {
+            element: "input",
+            attributes: {
+                placeholder: "Nombre de la ubicación",
+                type: "text",
+            },
+        },
+        buttons: {
+            confirm: {
+                text: "Aceptar",
+                value: true,
+                closeModal: true,
+            },
+            cancel: "Cancelar",
+        },
+    }).then((value) => {
+        if (value) {
+            var nombre = value.trim();
+            if (nombre !== "") {
+                var latLng = event.latLng;
+
+                // Utilizar la API de Geocodificación de Google Maps para obtener la dirección correspondiente a las coordenadas
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'location': latLng }, function(results, status) {
+                    if (status === 'OK') {
+                        if (results[0]) {
+                            var addressComponents = results[0].address_components;
+                            var streetName = null;
+                            var streetNumber = null;
+                            var postalCode = null;
+                            var city = null;
+
+                            // Recorrer los componentes de la dirección para obtener la calle, número, código postal y ciudad
+                            addressComponents.forEach(function(component) {
+                                if (component.types.includes('route')) {
+                                    streetName = component.long_name;
+                                } else if (component.types.includes('street_number')) {
+                                    streetNumber = component.long_name;
+                                } else if (component.types.includes('postal_code')) {
+                                    postalCode = component.long_name;
+                                } else if (component.types.includes('locality')) {
+                                    city = component.long_name;
+                                }
+                            });
+
+                            // Envía los datos al servidor para guardar la ubicación
+                            guardarUbicacion(nombre, latLng.lat(), latLng.lng(), streetName, streetNumber, postalCode, city);
+                        } else {
+                            console.error("No se encontró ninguna dirección para estas coordenadas.");
+                        }
+                    } else {
+                        console.error("No se pudo obtener la dirección: " + status);
+                    }
+                });
+            } else {
+                swal("Error", "Debe ingresar un nombre válido para la ubicación.", "error");
+            }
+        }
+    });
+});
+
+function guardarUbicacion(nombre, latitud, longitud, calle, numCalle, codigoPostal, ciudad) {
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    $.ajax({
+        url: '{{ route('guardar-ubicacion') }}',
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        },
+        data: {
+            nombre: nombre,
+            latitud: latitud,
+            longitud: longitud,
+            calle: calle,
+            num_calle: numCalle,
+            codigo_postal: codigoPostal,
+            ciudad: ciudad
+        },
+        success: function(response) {
+    // Mostrar mensaje de éxito utilizando SweetAlert
+    swal("Éxito", "Ubicación guardada con éxito", "success").then(() => {
+        // Recargar la página
+        location.reload();
+    });
+},
+error: function(xhr, status, error) {
+    // Mostrar mensaje de error utilizando SweetAlert
+    swal("Error", "Ocurrió un error al guardar la ubicación: " + xhr.responseText, "error");
+}
+
+    });
+}
   }
 
-  // Función para enviar los datos al servidor y guardar la ubicación
-  function guardarUbicacion(nombre, latitud, longitud) {
-      // Obtener el token CSRF
-      var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-      // Enviar la solicitud AJAX para guardar la ubicación
-      $.ajax({
-          url: '{{ route('guardar-ubicacion') }}',
-          method: 'POST',
-          headers: {
-              'X-CSRF-TOKEN': csrfToken
-          },
-          data: {
-              nombre: nombre,
-              latitud: latitud,
-              longitud: longitud
-          },
-          success: function(response) {
-              // Manejar la respuesta si es necesario
-              swal("Éxito", response.message, "success");
-              // Puedes agregar código adicional aquí, como actualizar el mapa
-          },
-          error: function(xhr, status, error) {
-              // Manejar errores si es necesario
-              swal("Error", "Ocurrió un error al guardar la ubicación.", "error");
-              console.error(error);
-          }
-      });
-  }
 </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbC3X4maTF6z_6nTvnCgRdFcB3wGj4b4w&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbC3X4maTF6z_6nTvnCgRdFcB3wGj4b4w&callback=initMap"></script>
 
 </html>

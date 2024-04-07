@@ -38,4 +38,5 @@ Route::post('/guardar-ubicacion', [UbicacionController::class, 'guardarUbicacion
 
 
 
+
 require __DIR__.'/auth.php';
