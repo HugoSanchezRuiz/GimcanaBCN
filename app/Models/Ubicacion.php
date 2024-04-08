@@ -11,6 +11,20 @@ class Ubicacion extends Model
 
     protected $table = 'ubicaciones';
 
-    // Protege todos los campos
-    protected $guarded = [];
+     protected $fillable = ['nombre', 'calle', 'num_calle', 'codigo_postal', 'ciudad', 'Pista', 'contador_likes', 'tipo_ubicacion_id', 'latitud', 'longitud'];
+
+    public function tipoUbicacion()
+    {
+        return $this->belongsTo(TipoUbicacion::class, 'tipo_ubicacion_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Likes::class);
+    }
+
+    public function gimcanaUbicaciones()
+    {
+        return $this->hasMany(GimcanaUbicacion::class);
+    }
 }
