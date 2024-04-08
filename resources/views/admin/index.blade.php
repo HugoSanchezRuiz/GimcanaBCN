@@ -12,23 +12,28 @@
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
     <!-- ICONO -->
     <link rel="icon" type="image/png" href="{{ asset('img/icon.png') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert@2"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbC3X4maTF6z_6nTvnCgRdFcB3wGj4b4w&callback=initMap"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
     <style>
-        .column-2 {
-            float: left;
-            width: 40%;
-            height: 92vh;
-            box-sizing: border-box;
-            padding: 10px;
-            background-color: rgb(255, 255, 255);
-            border-right: 2px solid rgb(219, 217, 217);
-        }
+/* Estilo para las columnas */
+.column-2 {
+    float: left;
+    width: 40%; /* Ancho inicial del 40% */
+    height: calc(100vh - 52px); /* Restamos el alto de la barra de navegación */
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: #fff; /* Color de fondo blanco */
+    border-right: 2px solid #dbeffd; /* Borde derecho azul claro */
+    overflow-y: auto; /* Agregamos desplazamiento vertical cuando el contenido exceda la altura */
+}
 
         .column-3 {
             float: left;
@@ -85,6 +90,59 @@
 }
 
 
+
+
+
+.column-2 {
+    float: left;
+    width: 40%;
+    height: calc(100vh - 52px); /* Restamos el alto de la barra de navegación */
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: rgb(255, 255, 255);
+    border-right: 2px solid rgb(219, 217, 217);
+    overflow-y: auto; /* Agregamos desplazamiento vertical cuando el contenido exceda la altura */
+}
+
+/* Estilos para la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto; /* Centrar la tabla horizontalmente */
+}
+
+/* Estilos para las celdas de encabezado */
+th {
+    background-color: #3498db; /* Azul */
+    color: #fff; /* Texto blanco */
+    padding: 10px;
+    font-size: 15px;
+    text-align: center;
+}
+
+/* Estilos para las celdas de datos */
+/* Estilos para las celdas de datos */
+td {
+    padding: 10px;
+    text-align: center; /* Centrar el contenido de las celdas */
+    font-size: 13px;
+}
+
+
+/* Estilos para las filas impares (opcional) */
+tr:nth-child(odd) {
+    background-color: #ecf0f1; /* Azul claro */
+}
+
+
+/* Estilos para botones dentro de celdas */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
     </style>
 </head>
 
@@ -114,6 +172,9 @@
     
                 <a class="navbar-item">
                     Gimcana
+                </a>
+                <a class="navbar-item">
+                    Crear Tipo Ubicaciones
                 </a>
     
                 <div class="navbar-item has-dropdown is-hoverable">
@@ -175,19 +236,18 @@
     
         <div class="container">
             <button id="crear-tipo-ubicacion">Crear tipo de ubicación</button>
-    
             <div class="container" id="createTipoUbicacionContainer" style="display: none;">
-                <h1>Crear Tipo de Ubicación</h1>
-                <form id="createTipoUbicacionForm">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
-    
-                    <label for="logo">Logo:</label>
-                    <input type="file" id="logo" name="logo" required>
-    
-                    <button type="submit" class="btn btn-primary">Crear Tipo de Ubicación</button>
+                <form id="createTipoUbicacionForm" style="background-color: #3498db; color: #fff; padding: 20px; border-radius: 5px;">
+                    <label for="nombre" style="display: block; margin-bottom: 10px;">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required style="padding: 8px; margin-bottom: 10px; width: 100%; box-sizing: border-box;">
+            
+                    <label for="logo" style="display: block; margin-bottom: 10px;">Logo:</label>
+                    <input type="file" id="logo" name="logo" required style="padding: 8px; margin-bottom: 10px; width: 100%; box-sizing: border-box;">
+            
+                    <button type="submit" class="btn btn-primary" style="padding: 10px 20px; background-color: #2980b9; color: #fff; border: none; border-radius: 3px; cursor: pointer;">Crear Tipo de Ubicación</button>
                 </form>
             </div>
+            
             <h1>Tipos de Ubicaciones</h1>
             <table id="tipo-ubicaciones-table">
                 <!-- Aquí se insertará la tabla de tipos de ubicaciones -->
@@ -216,8 +276,8 @@
 <script>
   function initMap() {
       var mapOptions = {
-          center: { lat: 41.4036, lng: 2.1744 }, // Coordenadas centrales del mapa
-          zoom: 12, // Nivel de zoom inicial
+          center: { lat: 41.362273, lng: 2.122864 }, // Coordenadas centrales del mapa
+          zoom: 14, // Nivel de zoom inicial
           styles: [
               { elementType: "labels", stylers: [{ visibility: "off" }] } // Oculta todas las etiquetas, incluidos los nombres de las ciudades
           ]
@@ -472,13 +532,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Crear la fila de encabezado de la tabla de ubicaciones
                     const headerRow = document.createElement('tr');
                     headerRow.innerHTML = `
-                <th>ID</th>
                 <th>Nombre</th>
                 <th>Dirección</th>
                 <th>Pista</th>
                 <th>Tipo de Ubicación</th>
-                <th>Latitud</th>
-                <th>Longitud</th>
                 <th>Acciones</th>
             `;
                     locationsTable.appendChild(headerRow);
@@ -487,16 +544,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     data.forEach(location => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                <td>${location.id}</td>
                 <td>${location.nombre ? location.nombre : '-'}</td>
                 <td>${location.calle}, ${location.num_calle}, ${location.ciudad}</td>
                 <td>${location.pista ? location.pista : '-'}</td>
-                <td>${location.tipo_ubicacion && location.tipo_ubicacion.nombre ? location.tipo_ubicacion.nombre : '-'}</td>
-                <td>${location.latitud}</td>
-                <td>${location.longitud}</td>
+                <td>${location.tipo_ubicacion && location.tipo_ubicacion.nombre ? location.tipo_ubicacion.nombre : '-'}</td>  
                 <td>
-                    <button onclick="editLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/editar.png') }}" alt="editar" width="50px" height="50px"></button>
-                    <button onclick="deleteLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/eliminar.png') }}" alt="eliminar" width="50px" height="50px"></button>
+                    <button onclick="editLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/editar.jpg') }}" alt="editar" width="50px" height="50px" "border-radius: 20%;"    ></button>
+                    <button onclick="deleteLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/eliminar.jpg') }}" alt="eliminar" width="50px" height="50px""border-radius: 20%;"    ></button>
                 </td>
             `;
                         locationsTable.appendChild(row);
@@ -518,7 +572,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Crear la fila de encabezado de la tabla de tipos de ubicaciones
                     const headerRow = document.createElement('tr');
                     headerRow.innerHTML = `
-                <th>ID</th>
                 <th>Nombre</th>
                 <th>Logo</th>
                 <th>Acciones</th>
@@ -529,12 +582,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     data.forEach(tipoUbicacion => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                    <td>${tipoUbicacion.id}</td>
                     <td>${tipoUbicacion.nombre}</td>
                     <td><img src="{{ asset('img/${tipoUbicacion.logo}') }}" style="max-width: 100px; max-height: 100px;" alt="Logo"></td>
                     <td>
-                        <button onclick="editTipoUbicacion('${tipoUbicacion.nombre}', ${tipoUbicacion.id})"><img src="{{ asset('img/editar.png') }}" alt="editar" width="50px" height="50px"></button>
-                        <button onclick="deleteTipoUbicacion('${tipoUbicacion.nombre}', ${tipoUbicacion.id})"><img src="{{ asset('img/eliminar.png') }}" alt="eliminar" width="50px" height="50px"></button>
+                        <button onclick="editTipoUbicacion('${tipoUbicacion.nombre}', ${tipoUbicacion.id})"><img src="{{ asset('img/editar.jpg') }}" alt="editar" width="50px" height="50px"></button>
+                        <button onclick="deleteTipoUbicacion('${tipoUbicacion.nombre}', ${tipoUbicacion.id})"><img src="{{ asset('img/eliminar.jpg') }}" alt="eliminar" width="50px" height="50px"></button>
                     </td>
                 `;
                         tipoUbicacionesTable.appendChild(row);
