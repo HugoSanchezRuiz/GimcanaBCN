@@ -14,8 +14,33 @@ class TipoUbicacionSeeder extends Seeder
     public function run()
     {
         DB::table('tipo_ubicaciones')->insert([
-            'nombre' => 'Tipo de Ubicacion de ejemplo'
+            'nombre' => 'Restaurante/Bar',
+            'logo' => 'restaurante.png'
+        ]);
 
+        DB::table('tipo_ubicaciones')->insert([
+            'nombre' => 'Transporte Publico',
+            'logo' => 'buses.png'
+        ]);
+
+        DB::table('tipo_ubicaciones')->insert([
+            'nombre' => 'Hotel',
+            'logo' => 'hotel.png'
+        ]);
+
+        DB::table('tipo_ubicaciones')->insert([
+            'nombre' => 'Parques',
+            'logo' => 'parques.png'
+        ]);
+
+        DB::table('tipo_ubicaciones')->insert([
+            'nombre' => 'Supermercados',
+            'logo' => 'super.png'
+        ]);
+
+        DB::table('tipo_ubicaciones')->insert([
+            'nombre' => 'Arte',
+            'logo' => 'arte.png'
         ]);
     }
 }
