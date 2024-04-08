@@ -34,11 +34,18 @@ class LocationController extends Controller
     {
         try {
             // Buscar la ubicación por su ID
-            $location = Ubicacion::findOrFail($id);
-            $relacion = GimcanaUbicacion::find($id);
+            $location = Ubicacion::find($id);
+
+            // Buscar la relación en GimcanaUbicacion por el ID de la ubicación
+            $relation = GimcanaUbicacion::where('ubicacion_id', $id)->first();
+
+            // Verificar si la relación existe
+            if ($relation) {
+                // Eliminar la relación en GimcanaUbicacion
+                $relation->delete();
+            }
 
             // Eliminar la ubicación
-            $relacion->delete();
             $location->delete();
 
             // Devolver una respuesta de éxito
@@ -55,14 +62,41 @@ class LocationController extends Controller
         try {
             // Buscar la ubicación por su ID
             $location = Ubicacion::find($id);
-
-            // Devolver los datos de la ubicación en formato JSON
-            return response()->json($location);
+    
+            // Verificar si se encontró la ubicación
+            if (!$location) {
+                return response()->json(['error' => 'La ubicación no fue encontrada'], 404);
+            }
+    
+            $tipoUbicaciones = TipoUbicacion::all();
+    
+            // Verificar si se encontraron tipos de ubicaciones
+            if ($tipoUbicaciones->isEmpty()) {
+                return response()->json(['error' => 'No se encontraron tipos de ubicación'], 404);
+            }
+    
+            // Crear un array para almacenar las opciones de tipo de ubicación
+            $options = [];
+            foreach ($tipoUbicaciones as $tipoUbicacion) {
+                $options[] = [
+                    'id' => $tipoUbicacion->id,
+                    'nombre' => $tipoUbicacion->nombre
+                ];
+            }
+    
+            // Devolver los datos de la ubicación y el tipo de ubicación en formato JSON
+            return response()->json([
+                'location' => $location,
+                'tipoUbicaciones' => $options
+            ]);
         } catch (\Exception $e) {
             // Manejar cualquier error y devolver una respuesta de error en JSON
             return response()->json(['error' => 'Error al obtener los datos de la ubicación'], 500);
         }
     }
+    
+    
+    
 
     public function update(Request $request, $id)
     {

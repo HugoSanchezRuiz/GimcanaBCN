@@ -53,6 +53,20 @@
     </div>
 
     <div class="container">
+        <button id="crear-tipo-ubicacion">Crear tipo de ubicación</button>
+
+        <div class="container" id="createTipoUbicacionContainer" style="display: none;">
+            <h1>Crear Tipo de Ubicación</h1>
+            <form id="createTipoUbicacionForm">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="logo">Logo:</label>
+                <input type="file" id="logo" name="logo" required>
+
+                <button type="submit" class="btn btn-primary">Crear Tipo de Ubicación</button>
+            </form>
+        </div>
         <h1>Tipos de Ubicaciones</h1>
         <table id="tipo-ubicaciones-table">
             <!-- Aquí se insertará la tabla de tipos de ubicaciones -->
@@ -93,7 +107,7 @@
                 <th>Nombre</th>
                 <th>Dirección</th>
                 <th>Pista</th>
-                <th>Tipo de Ubicación ID</th>
+                <th>Tipo de Ubicación</th>
                 <th>Latitud</th>
                 <th>Longitud</th>
                 <th>Acciones</th>
@@ -186,7 +200,8 @@
                             // Aquí puedes utilizar los datos de la ubicación para actualizar la interfaz de usuario
                             console.log('Datos de la ubicación a editar:', locationData);
 
-                            openEditLocationModal(locationData);
+                            // Asegúrate de que locationData tiene las propiedades 'location' y 'tipoUbicacion'
+                            openEditLocationModal(locationData.location, locationData.tipoUbicaciones);
                         })
                         .catch(error => {
                             console.error('Error al editar la ubicación:', error);
@@ -201,7 +216,9 @@
         }
 
 
-        function openEditLocationModal(locationData) {
+
+
+        function openEditLocationModal(locationData, tipoUbicaciones) {
             // Obtener el modal
             var modal = document.getElementById('editLocationModal');
 
@@ -230,8 +247,11 @@
             <label for="contador_likes">Contador de Likes:</label>
             <input type="text" id="contador_likes" name="contador_likes" value="${locationData.contador_likes}" required>
 
-            <label for="tipo_ubicacion_id">ID del Tipo de Ubicación:</label>
-            <input type="text" id="tipo_ubicacion_id" name="tipo_ubicacion_id" value="${locationData.tipo_ubicacion_id}" required>
+            <label for="tipo_ubicacion_id">Tipo de Ubicación:</label>
+            <select id="tipo_ubicacion_id" name="tipo_ubicacion_id" required>
+                <!-- Iterar sobre los tipos de ubicación y crear opciones -->
+                ${tipoUbicaciones.map(tipoUbicacion => `<option value="${tipoUbicacion.id}">${tipoUbicacion.nombre}</option>`).join('')}
+            </select>
 
             <label for="latitud">Latitud:</label>
             <input type="text" id="latitud" name="latitud" value="${locationData.latitud}" required>
@@ -243,7 +263,7 @@
             <input type="text" id="descripcion" name="descripcion" value="${locationData.descripcion}" required>
 
             <label for="imagen">Imagen:</label>
-            <input type="text" id="imagen" name="imagen" value="${locationData.imagen}" required>
+            <input type="file" id="imagen" name="imagen" required>
 
             <!-- Botón para enviar el formulario y actualizar la ubicación -->
             <button type="submit" class="btn btn-primary">Actualizar</button>
@@ -457,7 +477,7 @@
             <input type="text" id="nombre" name="nombre" value="${tipoUbicacionData.nombre}" required>
 
             <label for="logo">Logo:</label>
-            <input type="text" id="logo" name="logo" value="${tipoUbicacionData.logo}" required>
+            <input type="file" id="logo" name="logo" value="${tipoUbicacionData.logo}" required>
 
             <!-- Botón para enviar el formulario y actualizar el tipo de ubicación -->
             <button type="submit" class="btn btn-primary">Actualizar</button>
@@ -517,6 +537,63 @@
                     });
             });
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const crearTipoUbicacionBtn = document.getElementById('crear-tipo-ubicacion');
+            const createTipoUbicacionContainer = document.getElementById('createTipoUbicacionContainer');
+
+            crearTipoUbicacionBtn.addEventListener('click', function() {
+                // Mostrar u ocultar el contenedor del formulario de creación de tipo de ubicación
+                if (createTipoUbicacionContainer.style.display === 'none') {
+                    createTipoUbicacionContainer.style.display = 'block';
+                } else {
+                    createTipoUbicacionContainer.style.display = 'none';
+                }
+            });
+        });
+
+        // Manejar el envío del formulario para crear un tipo de ubicación
+        document.getElementById('createTipoUbicacionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+
+            // Realizar una solicitud Ajax para crear el tipo de ubicación
+            fetch('/tipo-ubicaciones/create', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al crear el tipo de ubicación');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Limpiar el formulario después de crear el tipo de ubicación
+                    this.reset();
+                    // Actualizar la lista de tipos de ubicaciones
+                    fetchTipoUbicaciones();
+                    // Mostrar un mensaje de éxito
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Tipo de Ubicación Creado',
+                        showCancelButton: false,
+                        timer: 1500
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al crear el tipo de ubicación:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al crear el tipo de ubicación'
+                    });
+                });
+        });
     </script>
 </body>
 

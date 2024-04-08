@@ -36,6 +36,7 @@ Route::post('/ubicaciones/{id}/update', [LocationController::class, 'update'])->
 Route::delete('/tipo-ubicaciones/{id}', [TipoLocationController::class, 'destroy'])->name('destroy');
 Route::get('/tipo-ubicaciones/{id}/edit', [TipoLocationController::class, 'edit'])->name('edit');
 Route::post('/tipo-ubicaciones/{id}/update', [TipoLocationController::class, 'update'])->name('update');
+Route::post('/tipo-ubicaciones/create', [TipoLocationController::class, 'create'])->name('create');
 
 
 require __DIR__.'/auth.php';
