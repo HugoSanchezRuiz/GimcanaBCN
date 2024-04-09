@@ -23,18 +23,11 @@
 
 
     <style>
-/* Estilo para las columnas */
-.column-2 {
-    float: left;
-    width: 40%; /* Ancho inicial del 40% */
-    height: calc(100vh - 52px); /* Restamos el alto de la barra de navegación */
-    box-sizing: border-box;
-    padding: 10px;
-    background-color: #fff; /* Color de fondo blanco */
-    border-right: 2px solid #dbeffd; /* Borde derecho azul claro */
-    overflow-y: auto; /* Agregamos desplazamiento vertical cuando el contenido exceda la altura */
+h1{
+    color: #3498db;
+    font-size: bold;
+    font-size: 25px;
 }
-
         .column-3 {
             float: left;
             width: 60%;
@@ -109,6 +102,9 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin: 0 auto; /* Centrar la tabla horizontalmente */
+    margin-top: 20px; /* Espacio superior */
+    margin-bottom: 20px; /* Espacio inferior */
+    border: 1px solid #ccc; /* Borde de la tabla */
 }
 
 /* Estilos para las celdas de encabezado */
@@ -121,13 +117,12 @@ th {
 }
 
 /* Estilos para las celdas de datos */
-/* Estilos para las celdas de datos */
 td {
     padding: 10px;
     text-align: center; /* Centrar el contenido de las celdas */
     font-size: 13px;
+    border-top: 1px solid #ccc; /* Borde superior de las celdas de datos */
 }
-
 
 /* Estilos para las filas impares (opcional) */
 tr:nth-child(odd) {
@@ -142,6 +137,77 @@ button {
     cursor: pointer;
     outline: none;
 }
+
+
+
+
+
+/* Estilos para el Sweet Alert */
+.swal2-popup {
+    width: 50%;
+    padding: 20px;
+}
+
+.swal2-title {
+    font-size: 1.5rem;
+}
+
+.swal2-content label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.swal2-content input,
+.swal2-content select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.swal2-content button[type="submit"] {
+    width: 15%;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.swal2-content button[type="submit"]:hover {
+    background-color: #3498db;
+}
+
+/* Estilos específicos para el botón de actualizar */
+.swal2-content .btn-update {
+    margin-top: 10px;
+}
+
+/* Estilos específicos para el botón de cerrar */
+.swal2-cancel {
+    margin-top: 10px;
+}
+
+
+
+#crear-tipo-ubicacion {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#crear-tipo-ubicacion:hover {
+    background-color: #3498db;
+}
+
+
+
 
     </style>
 </head>
@@ -235,8 +301,15 @@ button {
         </div>
     
         <div class="container">
+
+            
+            <h1>Tipos de Ubicaciones</h1>
+            <br>
+
             <button id="crear-tipo-ubicacion">Crear tipo de ubicación</button>
+            <br>
             <div class="container" id="createTipoUbicacionContainer" style="display: none;">
+                <br>
                 <form id="createTipoUbicacionForm" style="background-color: #3498db; color: #fff; padding: 20px; border-radius: 5px;">
                     <label for="nombre" style="display: block; margin-bottom: 10px;">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" required style="padding: 8px; margin-bottom: 10px; width: 100%; box-sizing: border-box;">
@@ -244,11 +317,11 @@ button {
                     <label for="logo" style="display: block; margin-bottom: 10px;">Logo:</label>
                     <input type="file" id="logo" name="logo" required style="padding: 8px; margin-bottom: 10px; width: 100%; box-sizing: border-box;">
             
-                    <button type="submit" class="btn btn-primary" style="padding: 10px 20px; background-color: #2980b9; color: #fff; border: none; border-radius: 3px; cursor: pointer;">Crear Tipo de Ubicación</button>
+                    <button type="submit" class="btn btn-primary" style="padding: 10px 20px; background-color: #2980b9; color: #fff; border: none; border-radius: 3px; cursor: pointer;">Crear</button>
                 </form>
+                <br>
             </div>
-            
-            <h1>Tipos de Ubicaciones</h1>
+            <br>
             <table id="tipo-ubicaciones-table">
                 <!-- Aquí se insertará la tabla de tipos de ubicaciones -->
             </table>
@@ -521,45 +594,105 @@ document.addEventListener('DOMContentLoaded', function() {
             fetchTipoUbicaciones();
         });
 
-        // Función fetchLocations() para obtener y mostrar las ubicaciones
-        function fetchLocations() {
-            fetch('/get-locations')
-                .then(response => response.json())
-                .then(data => {
-                    const locationsTable = document.getElementById('locations-table');
-                    locationsTable.innerHTML = '';
+// Función fetchLocations() para obtener y mostrar las ubicaciones
+function fetchLocations() {
+    const filterContainer = document.getElementById('filter-container');
+    
+    fetch('/get-locations')
+        .then(response => response.json())
+        .then(data => {
+            const locationsTable = document.getElementById('locations-table');
+            locationsTable.innerHTML = '';
 
-                    // Crear la fila de encabezado de la tabla de ubicaciones
-                    const headerRow = document.createElement('tr');
-                    headerRow.innerHTML = `
+            // Crear la fila de encabezado de la tabla de ubicaciones
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = `
                 <th>Nombre</th>
                 <th>Dirección</th>
-                <th>Pista</th>
                 <th>Tipo de Ubicación</th>
                 <th>Acciones</th>
             `;
-                    locationsTable.appendChild(headerRow);
+            locationsTable.appendChild(headerRow);
 
-                    // Iterar sobre los datos y agregar cada ubicación como una fila en la tabla
-                    data.forEach(location => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                <td>${location.nombre ? location.nombre : '-'}</td>
-                <td>${location.calle}, ${location.num_calle}, ${location.ciudad}</td>
-                <td>${location.pista ? location.pista : '-'}</td>
-                <td>${location.tipo_ubicacion && location.tipo_ubicacion.nombre ? location.tipo_ubicacion.nombre : '-'}</td>  
-                <td>
-                    <button onclick="editLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/editar.jpg') }}" alt="editar" width="50px" height="50px" "border-radius: 20%;"    ></button>
-                    <button onclick="deleteLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/eliminar.jpg') }}" alt="eliminar" width="50px" height="50px""border-radius: 20%;"    ></button>
-                </td>
+            // Iterar sobre los datos y agregar cada ubicación como una fila en la tabla
+            data.forEach(location => {
+                const row = document.createElement('tr');
+                row.id = `location-${location.id}`; // asignar un id único a cada fila
+                row.innerHTML = `
+                    <td>${location.nombre ? location.nombre : '-'}</td>
+                    <td>${location.calle}, ${location.num_calle}, ${location.ciudad}</td>
+                    <td>${location.tipo_ubicacion && location.tipo_ubicacion.nombre ? location.tipo_ubicacion.nombre : '-'}</td>  
+                    <td>
+                        <button onclick="editLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/editar.jpg') }}" alt="editar" width="50px" height="50px" style="border-radius: 20%;"    ></button>
+                        <button onclick="deleteLocation('${location.nombre}', ${location.id})"><img src="{{ asset('img/eliminar.jpg') }}" alt="eliminar" width="50px" height="50px" style="border-radius: 20%;"    ></button>
+                    </td>
+                `;
+                locationsTable.appendChild(row);
+            });
+
+            // Agregar filtro encima de la tabla
+            const filterRow = document.createElement('tr');
+            filterRow.id = 'filter-row';
+            filterRow.innerHTML = `
+                <td><input type="text" id="filter-name" placeholder="Filtrar por nombre"></td>
+                <td><input type="text" id="filter-address" placeholder="Filtrar por dirección"></td>
+                <td id="filter-location-type-container"></td>
+                <td></td>
             `;
-                        locationsTable.appendChild(row);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching locations:', error);
+            locationsTable.insertBefore(filterRow, locationsTable.firstChild);
+
+            // Crear select para el tipo de ubicación
+            const locationTypeSelect = document.createElement('select');
+            locationTypeSelect.id = 'filter-location-type';
+            const uniqueLocationTypes = [...new Set(data.map(location => location.tipo_ubicacion && location.tipo_ubicacion.nombre))];
+            locationTypeSelect.innerHTML = `<option value="">Seleccionar tipo de ubicación</option>`;
+            uniqueLocationTypes.forEach(type => {
+                if (type) {
+                    const option = document.createElement('option');
+                    option.value = type;
+                    option.text = type;
+                    locationTypeSelect.appendChild(option);
+                }
+            });
+            const filterLocationTypeContainer = document.getElementById('filter-location-type-container');
+            filterLocationTypeContainer.appendChild(locationTypeSelect);
+
+            // Escuchar eventos de entrada en los campos de filtro
+            const filterNameInput = document.getElementById('filter-name');
+            const filterAddressInput = document.getElementById('filter-address');
+            const filterLocationTypeInput = document.getElementById('filter-location-type');
+
+            filterNameInput.addEventListener('input', applyFilters);
+            filterAddressInput.addEventListener('input', applyFilters);
+            filterLocationTypeInput.addEventListener('change', applyFilters);
+
+            function applyFilters() {
+                const filterName = filterNameInput.value.toLowerCase();
+                const filterAddress = filterAddressInput.value.toLowerCase();
+                const filterLocationType = filterLocationTypeInput.value.toLowerCase();
+
+                data.forEach(location => {
+                    const row = document.getElementById(`location-${location.id}`);
+                    if (!row) return;
+
+                    const name = location.nombre ? location.nombre.toLowerCase() : '';
+                    const address = `${location.calle}, ${location.num_calle}, ${location.ciudad}`.toLowerCase();
+                    const locationType = location.tipo_ubicacion && location.tipo_ubicacion.nombre ? location.tipo_ubicacion.nombre.toLowerCase() : '';
+
+                    if (name.includes(filterName) && address.includes(filterAddress) && locationType.includes(filterLocationType)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
                 });
-        }
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching locations:', error);
+        });
+}
+
+
 
         // Función fetchTipoUbicaciones() para obtener y mostrar los tipos de ubicaciones
         function fetchTipoUbicaciones() {
@@ -640,65 +773,79 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         function openEditLocationModal(locationData, tipoUbicaciones) {
-            // Obtener el modal
-            var modal = document.getElementById('editLocationModal');
+    // Obtener el modal
+    // var modal = document.getElementById('editLocationModal');
 
-            // Crear el contenido del modal (formulario de edición de ubicación)
-            var modalContent = `
-        <form id="editLocationForm">
-            <!-- Campos del formulario para editar los datos de la ubicación -->
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" value="${locationData.nombre}" required>
+    // Función para manejar los valores nulos o indefinidos
+    function checkValue(value) {
+        return value !== null && value !== undefined ? value : 'No hay datos';
+    }
 
-            <label for="calle">Calle:</label>
-            <input type="text" id="calle" name="calle" value="${locationData.calle}" required>
+    // Agregar la opción "No asignado" si el valor de tipo_ubicacion_id es nulo
+    const tipoUbicacionesOptions = tipoUbicaciones.map(tipoUbicacion => `<option value="${tipoUbicacion.id}">${tipoUbicacion.nombre}</option>`);
+    if (locationData.tipo_ubicacion_id === null || locationData.tipo_ubicacion_id === undefined) {
+        tipoUbicacionesOptions.unshift(`<option value="" selected>No asignado</option>`);
+    }
 
-            <label for="num_calle">Número de Calle:</label>
-            <input type="text" id="num_calle" name="num_calle" value="${locationData.num_calle}" required>
+    // Crear el contenido del modal (formulario de edición de ubicación)
+    var formContent  = `
+<form id="editLocationForm">
+    <!-- Campos del formulario para editar los datos de la ubicación -->
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="${checkValue(locationData.nombre)}" required>
 
-            <label for="codigo_postal">Código Postal:</label>
-            <input type="text" id="codigo_postal" name="codigo_postal" value="${locationData.codigo_postal}" required>
+    <label for="calle">Calle:</label>
+    <input type="text" id="calle" name="calle" value="${checkValue(locationData.calle)}" required>
 
-            <label for="ciudad">Ciudad:</label>
-            <input type="text" id="ciudad" name="ciudad" value="${locationData.ciudad}" required>
+    <label for="num_calle">Número de Calle:</label>
+    <input type="text" id="num_calle" name="num_calle" value="${checkValue(locationData.num_calle)}" required>
 
-            <label for="pista">Pista:</label>
-            <input type="text" id="pista" name="pista" value="${locationData.pista}" required>
+    <label for="codigo_postal">Código Postal:</label>
+    <input type="text" id="codigo_postal" name="codigo_postal" value="${checkValue(locationData.codigo_postal)}" required>
 
-            <label for="contador_likes">Contador de Likes:</label>
-            <input type="text" id="contador_likes" name="contador_likes" value="${locationData.contador_likes}" required>
+    <label for="ciudad">Ciudad:</label>
+    <input type="text" id="ciudad" name="ciudad" value="${checkValue(locationData.ciudad)}" required>
 
-            <label for="tipo_ubicacion_id">Tipo de Ubicación:</label>
-            <select id="tipo_ubicacion_id" name="tipo_ubicacion_id" required>
-                <!-- Iterar sobre los tipos de ubicación y crear opciones -->
-                ${tipoUbicaciones.map(tipoUbicacion => `<option value="${tipoUbicacion.id}">${tipoUbicacion.nombre}</option>`).join('')}
-            </select>
+    <label for="pista">Pista:</label>
+    <input type="text" id="pista" name="pista" value="${checkValue(locationData.pista)}" required>
 
-            <label for="latitud">Latitud:</label>
-            <input type="text" id="latitud" name="latitud" value="${locationData.latitud}" required>
+    <label for="contador_likes">Contador de Likes:</label>
+    <input type="text" id="contador_likes" name="contador_likes" value="${checkValue(locationData.contador_likes)}" required>
 
-            <label for="longitud">Longitud:</label>
-            <input type="text" id="longitud" name="longitud" value="${locationData.longitud}" required>
+    <label for="tipo_ubicacion_id">Tipo de Ubicación:</label>
+    <select id="tipo_ubicacion_id" name="tipo_ubicacion_id" required>
+        <!-- Insertar opciones de tipo de ubicación -->
+        ${tipoUbicacionesOptions.join('')}
+    </select>
 
-            <label for="descripcion">Descripción:</label>
-            <input type="text" id="descripcion" name="descripcion" value="${locationData.descripcion}" required>
+    <label for="latitud">Latitud:</label>
+    <input type="text" id="latitud" name="latitud" value="${checkValue(locationData.latitud)}" required>
 
-            <label for="imagen">Imagen:</label>
-            <input type="file" id="imagen" name="imagen" required>
+    <label for="longitud">Longitud:</label>
+    <input type="text" id="longitud" name="longitud" value="${checkValue(locationData.longitud)}" required>
 
-            <!-- Botón para enviar el formulario y actualizar la ubicación -->
-            <button type="submit" class="btn btn-primary">Actualizar</button>
-        </form>`;
+    <label for="descripcion">Descripción:</label>
+    <input type="text" id="descripcion" name="descripcion" value="${checkValue(locationData.descripcion)}" required>
 
-            // Insertar el contenido en el cuerpo del modal
-            modal.querySelector('.modal-body').innerHTML = modalContent;
+    <label for="imagen">Imagen:</label>
+    <input type="file" id="imagen" name="imagen" >
 
-            // Mostrar el modal
-            var modalInstance = new bootstrap.Modal(modal);
-            modalInstance.show();
+    <!-- Botón para enviar el formulario y actualizar la ubicación -->
+    <button type="submit" class="btn btn-primary btn-update">Actualizar</button>
+</form>`;
 
-            // Manejar el envío del formulario
-            modal.querySelector('#editLocationForm').addEventListener('submit', function(event) {
+
+
+    // Mostrar Sweet Alert con el formulario
+    Swal.fire({
+        title: 'Editar Ubicación',
+        html: formContent,
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonText: 'Cerrar',
+        onOpen: function() {
+            // Manejar el envío del formulario cuando se abra Sweet Alert
+            document.getElementById('editLocationForm').addEventListener('submit', function(event) {
                 event.preventDefault();
                 // Obtener los datos del formulario
                 var formData = new FormData(this);
@@ -721,8 +868,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(data => {
                         // Actualizar la interfaz de usuario según sea necesario
                         console.log('Ubicación actualizada:', data);
-                        // Cerrar el modal
-                        modalInstance.hide();
                         // Actualizar la lista de ubicaciones
                         fetchLocations(); // Esta función actualiza la tabla de ubicaciones
                         // Mostrar un mensaje de éxito
@@ -743,6 +888,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
             });
         }
+    });
+}
 
 
 
@@ -887,32 +1034,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function openEditTipoUbicacionModal(tipoUbicacionData) {
-            // Obtener el modal
-            var modal = document.getElementById('editTipoUbicacionModal');
-
-            // Crear el contenido del modal (formulario de edición de tipo de ubicación)
-            var modalContent = `
+    // Crear el contenido del formulario de edición de tipo de ubicación
+    var formContent = `
         <form id="editTipoUbicacionForm">
             <!-- Campos del formulario para editar los datos del tipo de ubicación -->
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" value="${tipoUbicacionData.nombre}" required>
 
             <label for="logo">Logo:</label>
-            <input type="file" id="logo" name="logo" value="${tipoUbicacionData.logo}" required>
+            <input type="file" id="logo" name="logo" >
 
             <!-- Botón para enviar el formulario y actualizar el tipo de ubicación -->
             <button type="submit" class="btn btn-primary">Actualizar</button>
         </form>`;
 
-            // Insertar el contenido en el cuerpo del modal
-            modal.querySelector('.modal-body1').innerHTML = modalContent;
-
-            // Mostrar el modal
-            var modalInstance = new bootstrap.Modal(modal);
-            modalInstance.show();
-
-            // Manejar el envío del formulario
-            modal.querySelector('#editTipoUbicacionForm').addEventListener('submit', function(event) {
+    // Mostrar Sweet Alert con el formulario
+    Swal.fire({
+        title: 'Editar Tipo de Ubicación',
+        html: formContent,
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonText: 'Cerrar',
+        onOpen: function() {
+            // Manejar el envío del formulario cuando se abra Sweet Alert
+            document.getElementById('editTipoUbicacionForm').addEventListener('submit', function(event) {
                 event.preventDefault();
                 // Obtener los datos del formulario
                 var formData = new FormData(this);
@@ -935,8 +1080,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(data => {
                         // Actualizar la interfaz de usuario según sea necesario
                         console.log('Tipo de ubicación actualizado:', data);
-                        // Cerrar el modal
-                        modalInstance.hide();
+                        // Cerrar Sweet Alert
+                        Swal.close();
                         // Actualizar la lista de tipos de ubicaciones
                         fetchTipoUbicaciones();
                         fetchLocations();
@@ -958,6 +1103,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
             });
         }
+    });
+}
 
         document.addEventListener('DOMContentLoaded', function() {
             const crearTipoUbicacionBtn = document.getElementById('crear-tipo-ubicacion');
