@@ -11,6 +11,7 @@ class CreateTipoUbicacionesTable extends Migration
         Schema::create('tipo_ubicaciones', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 255)->nullable();
+            $table->string('logo', 255)->nullable();
             $table->timestamps();
         });
     }
