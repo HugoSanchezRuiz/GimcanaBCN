@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -125,22 +126,22 @@ class UbicacionSeeder extends Seeder
             'descripcion' => 'El supermercado más grande y completo de Hospitalet Centro.',
             'imagen' => 'supermercado_central.jpg',
         ]);
-                // Parque de la Serpiente en Hospitalet de Llobregat
-                DB::table('ubicaciones')->insert([
-                    'nombre' => 'Parque de la Serpiente',
-                    'calle' => 'Avenida del Carrilet',
-                    'num_calle' => 'S/N',
-                    'codigo_postal' => '08907',
-                    'ciudad' => 'Hospitalet de Llobregat',
-                    'Pista' => 'Pista del Parque de la Serpiente',
-                    'contador_likes' => 0,
-                    'tipo_ubicacion_id' => 4, // Tipo de ubicación: Parque
-                    'latitud' => '41.3625',
-                    'longitud' => '2.1139',
-                    'descripcion' => 'El Parque de la Serpiente es un amplio espacio verde ubicado en Hospitalet de Llobregat. Ofrece áreas de recreación, zonas verdes y senderos para caminar.',
-                    'imagen' => 'parque_serpiente.jpg', // Ruta de la imagen del parque
-                ]);
-                        // Parada de Metro Avinguda Carrilet
+        // Parque de la Serpiente en Hospitalet de Llobregat
+        DB::table('ubicaciones')->insert([
+            'nombre' => 'Parque de la Serpiente',
+            'calle' => 'Avenida del Carrilet',
+            'num_calle' => 'S/N',
+            'codigo_postal' => '08907',
+            'ciudad' => 'Hospitalet de Llobregat',
+            'Pista' => 'Pista del Parque de la Serpiente',
+            'contador_likes' => 0,
+            'tipo_ubicacion_id' => 4, // Tipo de ubicación: Parque
+            'latitud' => '41.3625',
+            'longitud' => '2.1139',
+            'descripcion' => 'El Parque de la Serpiente es un amplio espacio verde ubicado en Hospitalet de Llobregat. Ofrece áreas de recreación, zonas verdes y senderos para caminar.',
+            'imagen' => 'parque_serpiente.jpg', // Ruta de la imagen del parque
+        ]);
+        // Parada de Metro Avinguda Carrilet
         DB::table('ubicaciones')->insert([
             'nombre' => 'Parada de Metro Avinguda Carrilet',
             'calle' => 'Avinguda Carrilet',
@@ -170,6 +171,35 @@ class UbicacionSeeder extends Seeder
             'longitud' => '2.122864',
             'descripcion' => 'El Restaurante El Encanto es un acogedor establecimiento ubicado cerca de la parada de metro Avinguda Carrilet. Ofrece una variedad de platos caseros y especialidades locales.',
             'imagen' => 'restaurante_encanto.jpg', // Ruta de la imagen del restaurante
+        ]);
+
+        DB::table('ubicaciones')->insert([
+            'nombre' => "L'Abraçadora",
+            'calle' => 'Calle de Sant Jaume',
+            'num_calle' => '29',
+            'codigo_postal' => '08901',
+            'ciudad' => "L'Hospitalet de Llobregat",
+            'Pista' => 'Escultura monumental de benvinguda a Hospitalet',
+            'contador_likes' => 0,
+            'tipo_ubicacion_id' => 1, // Tipo de ubicación: Restaurante/Bar
+            'latitud' => '41.3576',
+            'longitud' => '2.1017',
+            'descripcion' => 'Descripción de L\'Abraçadora',
+            'imagen' => 'abracades.jpg',
+        ]);
+
+        DB::table('ubicaciones')->insert([
+            'nombre' => 'Estatua homenaje Hospitalet de Llobregat a J. Anselm Clavé',
+            'calle' => 'Avinguda Carrilet',
+            'num_calle' => '190',
+            'codigo_postal' => '08907',
+            'ciudad' => "L'Hospitalet de Llobregat",
+            'Pista' => 'Estatua homenaje Hospitalet de Llobregat a J. Anselm Clavé',
+            'contador_likes' => 0,
+            'latitud' => '41.3638',
+            'longitud' => '2.1166',
+            'descripcion' => 'Estatua homenaje a J. Anselm Clavé en Hospitalet de Llobregat',
+            'imagen' => 'anselmclave.jpg',
         ]);
     }
 }

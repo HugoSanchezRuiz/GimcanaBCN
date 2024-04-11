@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class GimcanaUbicacion extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['gimcana_id', 'ubicacion_id', 'orden'];
 
     public function gimcana()
@@ -18,6 +20,4 @@ class GimcanaUbicacion extends Model
     {
         return $this->belongsTo(Ubicacion::class);
     }
-
-    // Más relaciones y métodos según sea necesario
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\LobbiesUser;
 use Illuminate\Database\Seeder;
 
 
@@ -19,6 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call(GimcanaSeeder::class);
 
         $this->call(LobbiesSeeder::class);
+
+        $this->call(LobbiesUserSeeder::class);
 
         $this->call(TipoUbicacionSeeder::class);
   

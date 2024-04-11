@@ -9,12 +9,19 @@ use App\Http\Controllers\UbicacionController;
 
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TipoLocationController;
+use App\Http\Controllers\GimcanaController;
+use App\Http\Controllers\LikeController;
+
+use App\Http\Controllers\LobbieController;
 
 
 Route::get('/admin', function () {
     return view('admin.index');
 });
 
+Route::get('/gimcana', function () {
+    return view('gimcana');
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,6 +39,8 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/admin', [MapController::class, 'index'])->name('admin.index');
+
+Route::get('/gimcana', [MapController::class, 'gimcana'])->name('gimcana');
 
 
 Route::post('/guardar-ubicacion', [UbicacionController::class, 'guardarUbicacion'])->name('guardar-ubicacion');
@@ -51,10 +60,31 @@ Route::get('/tipo-ubicaciones/{id}/edit', [TipoLocationController::class, 'edit'
 Route::post('/tipo-ubicaciones/{id}/update', [TipoLocationController::class, 'update'])->name('update');
 Route::post('/tipo-ubicaciones/create', [TipoLocationController::class, 'create'])->name('create');
 
+// Ruta para obtener las gimcanas
+Route::get('/get-gimcanas', [GimcanaController::class, 'index']);
+
+// Ruta para editar una gimcana
+Route::get('/gimcanas/{id}/edit', [GimcanaController::class, 'edit']);
+
+
+Route::middleware('guest')->group(function () {
+    Route::get('/', function () { return view('auth.login');});
+    // Route::get('/mapa', function () { return view ('auth.mapa');});
+    Route::get('/mapa', [MapController::class, 'user'])->name('auth.mapa'); // <- Esto debería estar en AUTH
+    // Route::post('/mapa', [SalaController::class, 'crearSala'])->name('auth.mapa'); // <- Necesitamos tabla intermedia
+    Route::post('/mapa/like', [LikeController::class, 'like'])->name('auth.mapa');
+    Route::post('/mapa/unlike', [LikeController::class, 'eliminarLike'])->name('auth.mapa');
+});
 
 
 
+// Rutas para manejar las lobbies
+Route::get('/gimcana', [LobbieController::class, 'mostrarGimcana'])->name('gimcana.mostrar');
 
+
+
+Route::post('/cerrar-lobby', [LobbieController::class, 'cerrarLobby'])->name('lobby.cerrar');
+Route::post('/primera-ubicacion', [LobbieController::class, 'obtenerPrimeraUbicacion'])->name('ubicacion.primera');
 
 
 require __DIR__.'/auth.php';

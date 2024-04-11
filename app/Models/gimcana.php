@@ -8,11 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Gimcana extends Model
 {
     protected $fillable = ['nombre_gimcana'];
-
     public function ubicaciones()
     {
-        return $this->hasMany(GimcanaUbicacion::class);
+        return $this->belongsToMany(Ubicacion::class, 'gimcana_ubicaciones', 'gimcana_id', 'ubicacion_id');
     }
 
-    // Más relaciones y métodos según sea necesario
+    // public function ubicaciones()
+    // {
+    //     return $this->hasMany(GimcanaUbicacion::class);
+    // }
+
 }

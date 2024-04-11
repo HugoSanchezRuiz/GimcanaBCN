@@ -236,7 +236,7 @@ button {
                     Guia
                 </a>
     
-                <a class="navbar-item">
+                <a class="navbar-item" onclick="mostrarSweetAlert()">
                     Gimcana
                 </a>
                 <a class="navbar-item">
@@ -338,6 +338,13 @@ button {
                     </div>
                 </div>
             </div>
+
+        </div>
+        <div class="container">
+            <h1>Gimcanas</h1>
+            <table id="gimcana-table">
+                <!-- Aquí se insertará la tabla de ubicaciones -->
+            </table>
         </div>
 
 
@@ -1162,6 +1169,83 @@ function fetchLocations() {
                     });
                 });
         });
+
+
+            function mostrarSweetAlert() {
+        swal({
+            title: 'Nombre de la gimcana',
+            text: 'Por favor, ingresa el nombre de la gimcana:',
+            content: 'input',
+            buttons: {
+                cancel: true,
+                confirm: {
+                    text: 'Aceptar',
+                    closeModal: false,
+                }
+            }
+        }).then((value) => {
+            if (value) {
+                // Aquí puedes realizar cualquier acción con el nombre ingresado,
+                // como enviarlo mediante una solicitud AJAX o almacenarlo localmente.
+                // Por ahora, simplemente lo mostraremos en la consola.
+                console.log('Nombre de la gimcana:', value);
+            } else {
+                swal.close();
+            }
+        });
+    }
+
+
+
+    function fetchGimcanas() {
+    fetch('/get-gimcanas')
+        .then(response => response.json())
+        .then(data => {
+            const gimcanasTable = document.getElementById('gimcana-table');
+            gimcanasTable.innerHTML = '';
+
+            // Crear la fila de encabezado de la tabla de gimcanas
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = `
+                <th>Nombre de la Gimcana</th>
+                <th>Ubicaciones Asignadas</th>
+                <th>Acciones</th>
+            `;
+            gimcanasTable.appendChild(headerRow);
+
+            // Iterar sobre los datos y agregar cada gimcana como una fila en la tabla
+            data.forEach(gimcana => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${gimcana.nombre_gimcana}</td>
+                    <td>${formatUbicaciones(gimcana.ubicaciones)}</td>
+                    <td>
+                        <button onclick="editGimcana('${gimcana.nombre_gimcana}', ${gimcana.id})">Editar</button>
+                        <button onclick="deleteGimcana('${gimcana.nombre_gimcana}', ${gimcana.id})">Eliminar</button>
+                    </td>
+                `;
+                gimcanasTable.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching gimcanas:', error);
+        });
+}
+
+function formatUbicaciones(ubicaciones) {
+    let formatted = '';
+    ubicaciones.forEach(ubicacion => {
+        formatted += `${ubicacion.nombre}, `;
+    });
+    return formatted.slice(0, -2); // Eliminar la última coma y espacio
+}
+
+
+function editGimcana(gimcanaName, gimcanaId) {
+    // Aquí puedes implementar la lógica para editar una gimcana, similar a editLocation
+}
+
+
     </script>
 
 </html>
