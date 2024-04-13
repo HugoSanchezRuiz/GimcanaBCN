@@ -10,12 +10,14 @@ class CreateLobbiesTable extends Migration
     {
         Schema::create('lobbies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('usuario_id')->nullable();
+            $table->string('nombre_lobby');
             $table->unsignedBigInteger('gimcana_id');
+            $table->string('lobbies_codigo')->nullable();
+            $table->enum('estado', ['ocupada', 'libre'])->default('libre');
+            $table->integer('capacidad')->default(4); // Capacidad máxima de usuarios en el lobby
             $table->timestamps();
 
-            $table->foreign('usuario_id')->references('id')->on('users');
-            $table->foreign('gimcana_id')->references('id')->on('gimcana');
+            $table->foreign('gimcana_id')->references('id')->on('gimcana')->onDelete('cascade');
         });
     }
 

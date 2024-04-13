@@ -15,8 +15,15 @@ class CreateGimcanaUbicacionesTable extends Migration
             $table->decimal('orden', 1, 0)->nullable();
             $table->timestamps();
 
-            $table->foreign('gimcana_id')->references('id')->on('gimcana');
-            $table->foreign('ubicacion_id')->references('id')->on('ubicaciones');
+            $table->foreign('gimcana_id')
+                ->references('id')
+                ->on('gimcana')
+                ->onDelete('cascade'); // Eliminación en cascada cuando se borra una gimcana
+
+            $table->foreign('ubicacion_id')
+                ->references('id')
+                ->on('ubicaciones')
+                ->onDelete('cascade'); // Eliminación en cascada cuando se borra una ubicación
         });
     }
 

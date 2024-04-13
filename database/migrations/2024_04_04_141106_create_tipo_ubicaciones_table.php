@@ -21,3 +21,5 @@ class CreateTipoUbicacionesTable extends Migration
         Schema::dropIfExists('tipo_ubicaciones');
     }
 }
+
+

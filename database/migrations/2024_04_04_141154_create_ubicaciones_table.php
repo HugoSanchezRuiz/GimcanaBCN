@@ -24,13 +24,21 @@ class CreateUbicacionesTable extends Migration
             $table->string('imagen', 255)->nullable();
             $table->timestamps();
 
-            $table->foreign('tipo_ubicacion_id')->references('id')->on('tipo_ubicaciones');
+            // Restricción de clave externa con eliminación nula
+            $table->foreign('tipo_ubicacion_id')
+                ->references('id')
+                ->on('tipo_ubicaciones')
+                ->onDelete('cascade'); // Esto establece el valor en NULL cuando se elimina el tipo de ubicación
         });
     }
 
     public function down()
     {
+        Schema::disableForeignKeyConstraints(); // Deshabilitar restricciones de clave externa temporalmente
+
         Schema::dropIfExists('ubicaciones');
+
+        Schema::enableForeignKeyConstraints(); // Volver a habilitar restricciones de clave externa
     }
 }
 

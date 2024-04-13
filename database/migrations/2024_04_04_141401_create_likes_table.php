@@ -14,8 +14,8 @@ class CreateLikesTable extends Migration
             $table->unsignedBigInteger('ubicacion_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('usuario_id')->references('id')->on('users');
-            $table->foreign('ubicacion_id')->references('id')->on('ubicaciones');
+            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('ubicacion_id')->references('id')->on('ubicaciones')->onDelete('cascade');
         });
     }
 
@@ -24,4 +24,3 @@ class CreateLikesTable extends Migration
         Schema::dropIfExists('likes');
     }
 }
-

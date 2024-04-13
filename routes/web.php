@@ -9,6 +9,7 @@ use App\Http\Controllers\UbicacionController;
 
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TipoLocationController;
+use App\Http\Controllers\GimcanaController;
 
 
 Route::get('/admin', function () {
@@ -45,14 +46,16 @@ Route::get('/ubicaciones/{id}/edit', [LocationController::class, 'edit'])->name(
 Route::post('/ubicaciones/{id}/update', [LocationController::class, 'update'])->name('update');
 
 
-
 Route::delete('/tipo-ubicaciones/{id}', [TipoLocationController::class, 'destroy'])->name('destroy');
 Route::get('/tipo-ubicaciones/{id}/edit', [TipoLocationController::class, 'edit'])->name('edit');
 Route::post('/tipo-ubicaciones/{id}/update', [TipoLocationController::class, 'update'])->name('update');
 Route::post('/tipo-ubicaciones/create', [TipoLocationController::class, 'create'])->name('create');
 
 
-
+Route::get('/get-gimcana', [GimcanaController::class, 'getGimcana'])->name('getGimcana');
+Route::post('/gimcana/create', [GimcanaController::class, 'create'])->name('create');
+Route::get('/get-ubicaciones', [GimcanaController::class, 'getUbicaciones'])->name('getUbicaciones');
+Route::delete('/gimcana/{id}', [GimcanaController::class, 'destroy'])->name('destroy');
 
 
 

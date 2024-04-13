@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GimcanaUbicacion extends Model
+class Likes extends Model
 {
-    protected $table = 'gimcana_ubicaciones';
-    protected $fillable = ['gimcana_id', 'ubicacion_id', 'orden'];
+    protected $fillable = ['usuario_id', 'ubicacion_id'];
 
-    public function gimcana()
+    public function usuario()
     {
-        return $this->belongsTo(Gimcana::class);
+        return $this->belongsTo(User::class);
     }
 
     public function ubicacion()
@@ -20,4 +19,5 @@ class GimcanaUbicacion extends Model
         return $this->belongsTo(Ubicacion::class);
     }
 
+    // Más relaciones y métodos según sea necesario
 }

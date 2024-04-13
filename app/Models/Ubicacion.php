@@ -11,8 +11,6 @@ class Ubicacion extends Model
 
     protected $table = 'ubicaciones';
 
-     protected $fillable = ['nombre', 'calle', 'num_calle', 'codigo_postal', 'ciudad', 'Pista', 'contador_likes', 'tipo_ubicacion_id', 'latitud', 'longitud'];
-
     public function tipoUbicacion()
     {
         return $this->belongsTo(TipoUbicacion::class, 'tipo_ubicacion_id');
@@ -23,8 +21,13 @@ class Ubicacion extends Model
         return $this->hasMany(Likes::class);
     }
 
+    public function etiquetaUbicaciones()
+    {
+        return $this->belongsToMany(EtiquetaUbicacion::class);
+    }
+
     public function gimcanaUbicaciones()
     {
-        return $this->hasMany(GimcanaUbicacion::class);
+        return $this->belongsToMany(GimcanaUbicacion::class);
     }
 }

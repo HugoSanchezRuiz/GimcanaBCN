@@ -24,10 +24,17 @@ class DatabaseSeeder extends Seeder
   
         $this->call(UbicacionSeeder::class);
 
+        $this->call(EtiquetasUbicacionesSeeder::class);
+
         $this->call(LikesSeeder::class);
 
         $this->call(GimcanaUbicacionSeeder::class);
 
         $this->call(CheckpointsSeeder::class);
+
+        $this->call(UserEtiquetaSeeder::class);
+
+        $this->call(LobbiesUserSeeder::class);
+
     }
 }

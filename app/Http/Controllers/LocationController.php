@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Checkpoints;
 use App\Models\TipoUbicacion;
 use Illuminate\Http\Request;
 use App\Models\Ubicacion;
 use App\Models\GimcanaUbicacion;
+use App\Models\EtiquetaUbicacion;
+use App\Models\Likes;
 
 
 
@@ -34,22 +37,14 @@ class LocationController extends Controller
     {
         try {
             // Buscar la ubicación por su ID
-            $location = Ubicacion::find($id);
+            $ubicacion = Ubicacion::findOrFail($id);
 
-            // Buscar la relación en GimcanaUbicacion por el ID de la ubicación
-            $relation = GimcanaUbicacion::where('ubicacion_id', $id)->first();
-
-            // Verificar si la relación existe
-            if ($relation) {
-                // Eliminar la relación en GimcanaUbicacion
-                $relation->delete();
-            }
-
-            // Eliminar la ubicación
-            $location->delete();
+            // Finalmente, eliminar la ubicación
+            $ubicacion->delete();
 
             // Devolver una respuesta de éxito
-            return response()->json('ok');
+            // return response()->json('ok');
+            return response()->json(['success' => 'ok'], 200);
         } catch (\Exception $e) {
             // Manejar cualquier error y devolver una respuesta de error
             return response()->json(['error' => 'Error al eliminar la ubicación'], 500);
@@ -62,19 +57,19 @@ class LocationController extends Controller
         try {
             // Buscar la ubicación por su ID
             $location = Ubicacion::find($id);
-    
+
             // Verificar si se encontró la ubicación
             if (!$location) {
                 return response()->json(['error' => 'La ubicación no fue encontrada'], 404);
             }
-    
+
             $tipoUbicaciones = TipoUbicacion::all();
-    
+
             // Verificar si se encontraron tipos de ubicaciones
             if ($tipoUbicaciones->isEmpty()) {
                 return response()->json(['error' => 'No se encontraron tipos de ubicación'], 404);
             }
-    
+
             // Crear un array para almacenar las opciones de tipo de ubicación
             $options = [];
             foreach ($tipoUbicaciones as $tipoUbicacion) {
@@ -83,7 +78,7 @@ class LocationController extends Controller
                     'nombre' => $tipoUbicacion->nombre
                 ];
             }
-    
+
             // Devolver los datos de la ubicación y el tipo de ubicación en formato JSON
             return response()->json([
                 'location' => $location,
@@ -94,9 +89,9 @@ class LocationController extends Controller
             return response()->json(['error' => 'Error al obtener los datos de la ubicación'], 500);
         }
     }
-    
-    
-    
+
+
+
 
     public function update(Request $request, $id)
     {
@@ -116,7 +111,21 @@ class LocationController extends Controller
             $location->latitud = $request->input('latitud');
             $location->longitud = $request->input('longitud');
             $location->descripcion = $request->input('descripcion');
-            $location->imagen = $request->input('imagen');
+
+            // Verificar si se ha subido una imagen
+            if ($request->hasFile('imagen')) {
+                // Obtener el archivo de imagen
+                $imagen = $request->file('imagen');
+
+                // Generar un nombre único para la imagen
+                $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+
+                // Guardar la imagen en el directorio public/img
+                $imagen->move(public_path('img'), $nombreImagen);
+
+                // Actualizar el campo imagen con la ruta relativa de la imagen
+                $location->imagen = $nombreImagen;
+            }
 
             // Guardar los cambios
             $location->save();

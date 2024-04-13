@@ -42,5 +42,10 @@ class TipoUbicacionSeeder extends Seeder
             'nombre' => 'Arte',
             'logo' => 'arte.png'
         ]);
+
+        DB::table('tipo_ubicaciones')->insert([
+            'nombre' => 'Ocio',
+            'logo' => 'ocio.png'
+        ]);
     }
 }

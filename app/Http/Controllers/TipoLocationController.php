@@ -19,12 +19,12 @@ class TipoLocationController extends Controller
     public function destroy($id)
     {
         try {
-            // Buscar la ubicación por su ID
-            $location = TipoUbicacion::findOrFail($id);
-
-            // Eliminar la ubicación
-            $location->delete();
-
+            // Buscar el tipo de ubicación por su ID
+            $tipoUbicacion = TipoUbicacion::findOrFail($id);
+    
+            // Si no hay ubicaciones relacionadas, procede con la eliminación
+            $tipoUbicacion->delete();
+    
             // Devolver una respuesta de éxito
             return response()->json('ok');
         } catch (\Exception $e) {
@@ -32,6 +32,8 @@ class TipoLocationController extends Controller
             return response()->json(['error' => 'Error al eliminar el tipo de ubicación'], 500);
         }
     }
+    
+    
 
 
     public function edit($id)

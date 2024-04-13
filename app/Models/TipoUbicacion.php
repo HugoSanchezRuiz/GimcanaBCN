@@ -11,7 +11,12 @@ class TipoUbicacion extends Model
 
     protected $table = 'tipo_ubicaciones';
 
-    // Protege todos los campos
-    protected $guarded = [];
-    // Más relaciones y métodos según sea necesario
+    // // Protege todos los campos
+    // protected $guarded = [];
+
+    // Definir la relación con las ubicaciones
+    public function ubicaciones()
+    {
+        return $this->hasMany(Ubicacion::class, 'tipo_ubicacion_id');
+    }
 }

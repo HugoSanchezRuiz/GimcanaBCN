@@ -14,8 +14,8 @@ class CreateCheckpointsTable extends Migration
             $table->unsignedBigInteger('gimcana_ubicaciones_id');
             $table->timestamps();
 
-            $table->foreign('usuario_id')->references('id')->on('users');
-            $table->foreign('gimcana_ubicaciones_id')->references('id')->on('gimcana_ubicaciones');
+            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('gimcana_ubicaciones_id')->references('id')->on('gimcana_ubicaciones')->onDelete('cascade');
         });
     }
 
@@ -24,4 +24,3 @@ class CreateCheckpointsTable extends Migration
         Schema::dropIfExists('checkpoints');
     }
 }
-

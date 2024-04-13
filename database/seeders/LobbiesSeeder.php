@@ -13,9 +13,29 @@ class LobbiesSeeder extends Seeder
      */
     public function run()
     {
+        $codigo = $this->generarCodigo();
+
         DB::table('lobbies')->insert([
-            'usuario_id' => 1,
-            'gimcana_id' => 1
+            'nombre_lobby' => 'Lobby',
+            'gimcana_id' => 1, // Id de la gimcana correspondiente
+            'lobbies_codigo' => $codigo,
+            'estado' => 'libre'
         ]);
     }
+
+        // Función para generar un código aleatorio de 4 dígitos y único
+        private function generarCodigo()
+        {
+            $codigo = mt_rand(1000, 9999);
+    
+            $exists = Lobbies::where('lobbies_codigo', $codigo)->exists();
+    
+            // generar uno nuevo hasta que se encuentre uno que no esté
+            while ($exists) {
+                $codigo = mt_rand(1000, 9999);
+                $exists = Lobbies::where('lobbies_codigo', $codigo)->exists();
+            }
+    
+            return $codigo;
+        }
 }
