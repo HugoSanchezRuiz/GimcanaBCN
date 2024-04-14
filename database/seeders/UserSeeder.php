@@ -20,11 +20,19 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'), // Ajusta la contraseña según sea necesario
             'tipo' => 'jugador', // Tipo de usuario
         ]);
+
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => bcrypt('asdASD123'), // Ajusta la contraseña según sea necesario
             'tipo' => 'admin', // Tipo de usuario
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'Ivan Moreno',
+            'email' => 'ivan@example.com',
+            'password' => bcrypt('asdASD123'), // Ajusta la contraseña según sea necesario
+            'tipo' => 'jugador', // Tipo de usuario
         ]);
     }
 }

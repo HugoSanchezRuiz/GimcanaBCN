@@ -201,5 +201,52 @@ class UbicacionSeeder extends Seeder
             'descripcion' => 'Estatua homenaje a J. Anselm Clavé en Hospitalet de Llobregat',
             'imagen' => 'anselmclave.jpg',
         ]);
+
+        // Parque de la Serpiente en Hospitalet de Llobregat
+        DB::table('ubicaciones')->insert([
+            'nombre' => 'Parque de la Serpiente',
+            'calle' => 'Avenida del Carrilet',
+            'num_calle' => 'S/N',
+            'codigo_postal' => '08907',
+            'ciudad' => 'Hospitalet de Llobregat',
+            'Pista' => 'Lugar donde se hacen las fiestas mayores y tiene un grafiti representativo',
+            'contador_likes' => 0,
+            'tipo_ubicacion_id' => 4, // Tipo de ubicación: Parque
+            'latitud' => '41.361600005473136',
+            'longitud' => '2.1095890307604748',
+            'descripcion' => 'El Parque de la Serpiente es un amplio espacio verde ubicado en Hospitalet de Llobregat. Ofrece áreas de recreación, zonas verdes y senderos para caminar.',
+            'imagen' => 'parque_serpiente.jpg', // Ruta de la imagen del parque
+        ]);
+
+        // Parada de Metro Avinguda Carrilet
+        DB::table('ubicaciones')->insert([
+            'nombre' => 'Zoco salamandra',
+            'calle' => 'Avinguda Carrilet',
+            'num_calle' => 'S/N',
+            'codigo_postal' => '08907',
+            'ciudad' => 'Hospitalet de Llobregat',
+            'Pista' => 'Hay algunos profesores y alumnos que disfrutan en este espacio por la noche',
+            'contador_likes' => 0,
+            'tipo_ubicacion_id' => 6, // Tipo de ubicación: Transporte Público
+            'latitud' => '41.36019654703992',
+            'longitud' => '2.109278134772201',
+            'descripcion' => 'Discoteca Zoco Salamandra',
+            'imagen' => 'salamandra.jpg', // Ruta de la imagen de la parada de metro
+        ]);
+
+        DB::table('ubicaciones')->insert([
+                    'nombre' => 'Casino de Hospitalet',
+                    'calle' => 'Carrer de la Mare de Déu de Bellvitge',
+                    'num_calle' => '20',
+                    'codigo_postal' => '08907',
+                    'ciudad' => "L'Hospitalet de Llobregat",
+                    'Pista' => ' Lugar de ocio que contiene la tricolor y la destrozafamilias.',
+                    'contador_likes' => 0,
+                    'tipo_ubicacion_id' => 7,
+                    'latitud' => '41.3576',
+                    'longitud' => '2.1017',
+                    'descripcion' => 'El Casino de Hospitalet es un conocido centro de entretenimiento en la ciudad.',
+                    'imagen' => 'casino_hospitalet.jpg',
+                ]);
     }
 }

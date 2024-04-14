@@ -18,6 +18,7 @@ class GimcanaUbicacion extends Model
 
     public function ubicacion()
     {
-        return $this->belongsTo(Ubicacion::class);
+        return $this->belongsTo(Ubicacion::class, 'ubicacion_id');
     }
+    
 }

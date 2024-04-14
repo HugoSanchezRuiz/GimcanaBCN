@@ -18,8 +18,18 @@ class GimcanaUbicacionSeeder extends Seeder
     {
         DB::table('gimcana_ubicaciones')->insert([
             'gimcana_id' => 1,
-            'ubicacion_id' => 1,
+            'ubicacion_id' => 13,
             'orden' => '1'
+        ]);
+        DB::table('gimcana_ubicaciones')->insert([
+            'gimcana_id' => 1,
+            'ubicacion_id' => 14,
+            'orden' => '2'
+        ]);
+        DB::table('gimcana_ubicaciones')->insert([
+            'gimcana_id' => 1,
+            'ubicacion_id' => 15,
+            'orden' => '3'
         ]);
 
     }

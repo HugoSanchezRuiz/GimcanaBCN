@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Lobbies;
 use App\Models\GimcanaUbicacion;
+use App\Models\Ubicacion;
 
 class LobbieController extends Controller
 {
@@ -28,23 +29,46 @@ class LobbieController extends Controller
         return response()->json(['message' => 'Lobby cerrada exitosamente']);
     }
 
-    public function obtenerPrimeraUbicacion(Request $request)
+    public function obtenerUbicacion(Request $request)
     {
-        $lobbyId = $request->input('lobby_id'); // Obtener el ID de la lobby desde la solicitud
+        $idUbicacion = 13; // ID de la ubicación que deseas obtener
     
-        // Consulta para obtener la primera ubicación de la gimcana
-        $primeraUbicacion = GimcanaUbicacion::whereHas('ubicacion', function ($query) {
-                $query->whereNotNull('Pista'); // Asegurarse de que la ubicación tenga una pista
-            })
-            ->where('gimcana_id', $lobbyId)
-            ->orderBy('orden')
-            ->first();
+        // Consulta para obtener la ubicación por su ID
+        $ubicacion = Ubicacion::select('latitud', 'longitud', 'Pista')->find($idUbicacion);
     
-        if ($primeraUbicacion) {
-            return response()->json(['pista' => $primeraUbicacion->ubicacion->Pista]);
+        if ($ubicacion) {
+            return response()->json($ubicacion);
         } else {
-            return response()->json(['error' => 'No se encontró la primera ubicación de la gimcana o no tiene una pista asociada'], 404);
+            return response()->json(['error' => 'No se encontró la ubicación con el ID proporcionado'], 404);
+        }
+    }
+
+    public function obtenerUbicacionDos(Request $request)
+    {
+        $idUbicacion = 14; // ID de la ubicación que deseas obtener
+    
+        // Consulta para obtener la ubicación por su ID
+        $ubicacion = Ubicacion::select('latitud', 'longitud', 'Pista')->find($idUbicacion);
+    
+        if ($ubicacion) {
+            return response()->json($ubicacion);
+        } else {
+            return response()->json(['error' => 'No se encontró la ubicación con el ID proporcionado'], 404);
+        }
+    }
+
+    public function obtenerUbicacionTres(Request $request)
+    {
+        $idUbicacion = 15; // ID de la ubicación que deseas obtener
+    
+        // Consulta para obtener la ubicación por su ID
+        $ubicacion = Ubicacion::select('latitud', 'longitud', 'Pista')->find($idUbicacion);
+    
+        if ($ubicacion) {
+            return response()->json($ubicacion);
+        } else {
+            return response()->json(['error' => 'No se encontró la ubicación con el ID proporcionado'], 404);
         }
     }
     
-}    
+}

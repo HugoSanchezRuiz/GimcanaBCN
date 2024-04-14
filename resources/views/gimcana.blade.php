@@ -98,116 +98,81 @@ h1{
     overflow-y: auto; /* Agregamos desplazamiento vertical cuando el contenido exceda la altura */
 }
 
-/* Estilos para la tabla */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0 auto; /* Centrar la tabla horizontalmente */
-    margin-top: 20px; /* Espacio superior */
-    margin-bottom: 20px; /* Espacio inferior */
-    border: 1px solid #ccc; /* Borde de la tabla */
+h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: black;
+    font-weight: bold;
 }
 
-/* Estilos para las celdas de encabezado */
-th {
-    background-color: #3498db; /* Azul */
-    color: #fff; /* Texto blanco */
-    padding: 10px;
-    font-size: 15px;
-    text-align: center;
+h3 {
+    color: black;
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
-/* Estilos para las celdas de datos */
-td {
-    padding: 10px;
-    text-align: center; /* Centrar el contenido de las celdas */
-    font-size: 13px;
-    border-top: 1px solid #ccc; /* Borde superior de las celdas de datos */
+ul {
+    color: black;
+    list-style: none;
+    padding-left: 0;
 }
 
-/* Estilos para las filas impares (opcional) */
-tr:nth-child(odd) {
-    background-color: #ecf0f1; /* Azul claro */
-}
-
-
-/* Estilos para botones dentro de celdas */
-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    outline: none;
-}
-
-
-
-
-
-/* Estilos para el Sweet Alert */
-.swal2-popup {
-    width: 50%;
-    padding: 20px;
-}
-
-.swal2-title {
-    font-size: 1.5rem;
-}
-
-.swal2-content label {
-    display: block;
+li {
+    color: black;
+    font-size: 16px;
     margin-bottom: 5px;
 }
 
-.swal2-content input,
-.swal2-content select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.swal2-content button[type="submit"] {
-    width: 15%;
-    padding: 10px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.swal2-content button[type="submit"]:hover {
-    background-color: #3498db;
-}
-
-/* Estilos específicos para el botón de actualizar */
-.swal2-content .btn-update {
-    margin-top: 10px;
-}
-
-/* Estilos específicos para el botón de cerrar */
-.swal2-cancel {
-    margin-top: 10px;
-}
-
-
-
-#crear-tipo-ubicacion {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
+#startButton {
+    background-color: #4CAF50;
+    color: white;
     padding: 10px 20px;
-    border-radius: 4px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
-#crear-tipo-ubicacion:hover {
-    background-color: #3498db;
+#startButton:hover {
+    background-color: #45a049;
 }
 
+input[type="text"] {
+    width: 600px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+    color: #333;
+    font-size: 16px;
+}
 
+input[type="text"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px rgba(0, 128, 0, 0.6);
+}
+p {
+    color: black;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+@media screen and (max-width: 800px) {
+            .jimcana-button {
+                padding: 15px 25px; /* Ajustar el padding para dispositivos más pequeños */
+            }
+
+            .column-2 {
+                width: 100%;
+                height: 50vh;
+                padding-bottom: 100px;
+            }
+        
+            .column-3 {
+                width: 100%;
+                height: 45vh;
+            }
+        }
 
 
     </style>
@@ -232,39 +197,7 @@ button {
         </div>
     
         <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" style="margin-left: 150px;">
-                    Guia
-                </a>
-    
-                <a class="navbar-item" onclick="mostrarSweetAlert()">
-                    Gimcana
-                </a>
-                <a class="navbar-item">
-                    Crear Tipo Ubicaciones
-                </a>
-    
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        More
-                    </a>
-    
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            About
-                        </a>
-                        <a class="navbar-item is-selected">
-                            Jobs
-                        </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            Report an issue
-                        </a>
-                    </div>
-                </div>
+
             </div>
     
             <div class="navbar-end">
@@ -283,131 +216,70 @@ button {
     
     <div class="column-2">
         <h2 style="font-size: 24px; margin-bottom: 15px;">Nombre grupo: {{ $lobby->nombre_lobby }}</h2>
-        @if($usuariosGrupo->isNotEmpty())
+        @if ($usuariosGrupo->isNotEmpty())
             <h3 style="font-size: 18px; margin-bottom: 10px;">Usuarios en el grupo ({{ $usuariosGrupo->count() }}/4):</h3>
             <ul style="list-style: none; padding-left: 0;">
-                @foreach($usuariosGrupo as $usuario)
-                    <li style="font-size: 16px; margin-bottom: 5px;">- {{ $usuario->name }}</li>
-                @endforeach
+                @foreach ($usuariosGrupo as $usuario)
+                    <li style="font-size: 16px; margin-bottom: 5px;">- {{ $usuario->name }}</li> @endforeach
             </ul>
-            <button onclick="empezarAJugar()" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Empezar a jugar</button>
-            <input type="text" id="pistaText" style="margin-top: 20px; width: 100%; padding: 10px; font-size: 16px;" readonly>
+            <button id="startButton"
+        onclick="empezarAJugar()"
+        style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+    Empezar a jugar</button><br><br>
 
-            <script>
-    function empezarAJugar() {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "La lobby se cerrará y empezará la gimcana. ¿Deseas continuar?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, empezar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Cerrar la lobby
-                fetch('/cerrar-lobby', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        lobby_id: {{ $lobby->id }}
-                    })
-                }).then(response => {
-                    if (response.ok) {
-                        // Obtener la primera ubicación de la gimcana
-                        fetch('/primera-ubicacion', {
-                            method: 'GET', // Cambiado a GET
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Agregado token como header
-                            }
-                        }).then(response => {
-    if (response.ok) {
-        return response.json();
-    } else if (response.status === 404) {
-        throw new Error('No se encontró la primera ubicación de la gimcana');
-    } else {
-        throw new Error('Ha ocurrido un error al obtener la pista de la primera ubicación.');
-    }
-})
-.then(data => {
-                            // Mostrar la pista en el campo de texto y en el Sweet Alert
-                            document.getElementById('pistaText').value = data.pista;
-                            Swal.fire({
-                                title: 'Pista de la primera ubicación:',
-                                text: data.pista,
-                                icon: 'info',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'Aceptar'
-                            });
-                        }).catch(error => {
-                            console.error(error);
-                            Swal.fire({
-                                title: 'Error',
-                                text: 'Ha ocurrido un error al obtener la pista de la primera ubicación.',
-                                icon: 'error',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'Aceptar'
-                            });
-                        });
-                    } else {
-                        throw new Error('Error al cerrar la lobby');
-                    }
-                }).catch(error => {
-                    console.error(error);
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Ha ocurrido un error al cerrar la lobby.',
-                        icon: 'error',
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Aceptar'
-                    });
-                });
-            }
-        });
-    }
-            </script>
-        @else
-            <p style="font-size: 16px;">No hay usuarios en el grupo.</p>
-        @endif
+    <div style="margin-bottom: 10px;">
+        <p style="font-size: 16px; margin-bottom: 5px;">Pista ubicación 1:</p>
+        <input type="text" id="pista1" readonly style="width: 600px;">
     </div>
-    
-    
-    
-    
-    
+    <div style="margin-bottom: 10px;">
+        <p style="font-size: 16px; margin-bottom: 5px;">Pista ubicación 2:</p>
+        <input type="text" id="pista2" readonly style="width: 600px;">
+    </div>
+    <div style="margin-bottom: 10px;">
+        <p style="font-size: 16px; margin-bottom: 5px;">Pista ubicación 3:</p>
+        <input type="text" id="pista3" readonly style="width: 600px;">
+    </div>
+@else
+    <p style="font-size: 16px;">No hay usuarios en el grupo.</p>
+    @endif
+    </div>
+
+
+
+
+
+
 
 
     <div class="column-3" id="map">
-   
+
     </div>
-</body>
-<script>
+    </body>
+    <script>
+        function initMap() {
+            var mapOptions = {
+                center: {
+                    lat: 41.362273,
+                    lng: 2.122864
+                }, // Coordenadas centrales del mapa
+                zoom: 14, // Nivel de zoom inicial
+                styles: [{
+                        elementType: "labels",
+                        stylers: [{
+                            visibility: "off"
+                        }]
+                    } // Oculta todas las etiquetas, incluidos los nombres de las ciudades
+                ]
+            };
 
 
 
-
-
-  function initMap() {
-      var mapOptions = {
-          center: { lat: 41.362273, lng: 2.122864 }, // Coordenadas centrales del mapa
-          zoom: 14, // Nivel de zoom inicial
-          styles: [
-              { elementType: "labels", stylers: [{ visibility: "off" }] } // Oculta todas las etiquetas, incluidos los nombres de las ciudades
-          ]
-      };
-      
-      
-
-      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
 
             // Obtener la ubicación actual del usuario
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
+                navigator.geolocation.getCurrentPosition(function(position) {
                     var userLocation = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
@@ -426,40 +298,42 @@ button {
                     });
 
 
-// Función para animar el círculo
-function expandCircle() {
-    var circle = new google.maps.Circle({
-        strokeColor: '#0000FF',
-        strokeOpacity: 0.3,
-        strokeWeight: 2,
-        fillColor: '#0000FF',
-        fillOpacity: 0.1,
-        map: map,
-        center: userLocation,
-        radius: 0 // Inicia con radio 0 para la animación
-    });
+                    // Función para animar el círculo
+                    function expandCircle() {
+                        var circle = new google.maps.Circle({
+                            strokeColor: '#0000FF',
+                            strokeOpacity: 0.3,
+                            strokeWeight: 2,
+                            fillColor: '#0000FF',
+                            fillOpacity: 0.1,
+                            map: map,
+                            center: userLocation,
+                            radius: 0 // Inicia con radio 0 para la animación
+                        });
 
-    function animate() {
-        var currentRadius = circle.getRadius();
-        if (currentRadius < 700) { // Define el radio máximo que deseas alcanzar
-            circle.setRadius(currentRadius + 100); // Incrementa el radio en 100 metros
-        } else {
-            clearInterval(animationInterval); // Detiene la animación cuando alcanza el radio máximo
-            setTimeout(function() {
-                // Desaparecer el círculo durante 2 segundos antes de reiniciar la animación
-                circle.setRadius(0); // Establecer el radio a 0 para que desaparezca
-                setTimeout(expandCircle, 1000); // Reinicia la animación después de 2 segundos
-            }, 1000); // Espera 2 segundos antes de desaparecer el círculo
-        }
-    }
+                        function animate() {
+                            var currentRadius = circle.getRadius();
+                            if (currentRadius < 700) { // Define el radio máximo que deseas alcanzar
+                                circle.setRadius(currentRadius + 100); // Incrementa el radio en 100 metros
+                            } else {
+                                clearInterval(
+                                    animationInterval); // Detiene la animación cuando alcanza el radio máximo
+                                setTimeout(function() {
+                                    // Desaparecer el círculo durante 2 segundos antes de reiniciar la animación
+                                    circle.setRadius(0); // Establecer el radio a 0 para que desaparezca
+                                    setTimeout(expandCircle,
+                                        1000); // Reinicia la animación después de 2 segundos
+                                }, 1000); // Espera 2 segundos antes de desaparecer el círculo
+                            }
+                        }
 
-    // Iniciar la animación
-    var animationInterval = setInterval(animate, 100); // Se ejecuta cada 100 milisegundos
-}
+                        // Iniciar la animación
+                        var animationInterval = setInterval(animate, 100); // Se ejecuta cada 100 milisegundos
+                    }
 
-expandCircle(); // Iniciar la animación por primera vez
+                    expandCircle(); // Iniciar la animación por primera vez
 
-                }, function () {
+                }, function() {
                     handleLocationError(true, infoWindow, map.getCenter());
                 });
             } else {
@@ -469,8 +343,577 @@ expandCircle(); // Iniciar la animación por primera vez
 
 
         }
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbC3X4maTF6z_6nTvnCgRdFcB3wGj4b4w&callback=initMap"></script>
+
+
+        function empezarAJugar() {
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "La lobby se cerrará y empezará la gimcana. ¿Deseas continuar?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, empezar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Realizar la solicitud para cerrar la lobby
+                    fetch('/cerrar-lobby', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        },
+                        body: JSON.stringify({
+                            lobby_id: {{ $lobby->id }}
+                        })
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al cerrar la lobby');
+                        }
+                        // Una vez que la lobby esté cerrada, enviar la solicitud para obtener la ubicación
+                        return fetch('/obtener-ubicacion', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                ubicacion_id: 13 // ID de la ubicación que deseas obtener
+                            })
+                        });
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al obtener la ubicación');
+                        }
+                        return response.json();
+                    }).then(data => {
+                        // Mostrar la ubicación en el mapa
+                        var button = document.getElementById('startButton');
+                        button.textContent = 'Gimcana en curso';
+                        button.disabled = true;
+                        // Configuración del mapa
+                        var mapOptions = {
+                            center: {
+                                lat: 41.362273,
+                                lng: 2.122864
+                            }, // Coordenadas centrales del mapa
+                            zoom: 14, // Nivel de zoom inicial
+                            styles: [{
+                                    elementType: "labels",
+                                    stylers: [{
+                                        visibility: "off"
+                                    }]
+                                } // Oculta todas las etiquetas, incluidos los nombres de las ciudades
+                            ]
+                        };
+
+                        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+                        // Obtener la ubicación actual del usuario
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function(position) {
+                                var userLocation = {
+                                    lat: position.coords.latitude,
+                                    lng: position.coords.longitude
+                                };
+
+                                // Crear marcador en la ubicación actual del usuario
+                                var userMarker = new google.maps.Marker({
+                                    position: userLocation,
+                                    map: map,
+                                    title: 'Tu ubicación actual',
+                                    icon: {
+                                        url: "{{ asset('img/gimcana.png') }}", // Ruta de la imagen del marcador
+                                        scaledSize: new google.maps.Size(40,
+                                            40) // Tamaño del icono
+                                    },
+                                    optimized: false // Desactivar la optimización de la imagen para que se apliquen los estilos
+                                });
+
+                                // Función para animar el círculo
+                                function expandCircle() {
+                                    var circle = new google.maps.Circle({
+                                        strokeColor: '#0000FF',
+                                        strokeOpacity: 0.3,
+                                        strokeWeight: 2,
+                                        fillColor: '#0000FF',
+                                        fillOpacity: 0.1,
+                                        map: map,
+                                        center: userLocation,
+                                        radius: 0 // Inicia con radio 0 para la animación
+                                    });
+
+                                    function animate() {
+                                        var currentRadius = circle.getRadius();
+                                        if (currentRadius <
+                                            700) { // Define el radio máximo que deseas alcanzar
+                                            circle.setRadius(currentRadius +
+                                                100); // Incrementa el radio en 100 metros
+                                        } else {
+                                            clearInterval(
+                                                animationInterval
+                                            ); // Detiene la animación cuando alcanza el radio máximo
+                                            setTimeout(function() {
+                                                    // Desaparecer el círculo durante 2 segundos antes de reiniciar la animación
+                                                    circle.setRadius(
+                                                        0
+                                                    ); // Establecer el radio a 0 para que desaparezca
+                                                    setTimeout(expandCircle,
+                                                        1000
+                                                    ); // Reinicia la animación después de 2 segundos
+                                                },
+                                                1000
+                                            ); // Espera 2 segundos antes de desaparecer el círculo
+                                        }
+                                    }
+
+                                    // Iniciar la animación
+                                    var animationInterval = setInterval(animate,
+                                        100); // Se ejecuta cada 100 milisegundos
+                                }
+
+                                expandCircle(); // Iniciar la animación por primera vez
+
+                                // Mostrar la ubicación en el mapa
+                                var ubicacion = {
+                                    lat: parseFloat(data.latitud),
+                                    lng: parseFloat(data.longitud)
+                                };
+                                var marker = new google.maps.Marker({
+                                    position: ubicacion,
+                                    map: map,
+                                    title: 'Ubicación Uno',
+                                    visible: false // Configurar el marcador como invisible
+                                });
+
+                                // Crear el círculo alrededor de la ubicación
+                                var circle = new google.maps.Circle({
+                                    strokeColor: '#0000FF',
+                                    strokeOpacity: 0, // Hacer el borde invisible
+                                    strokeWeight: 2,
+                                    fillColor: '#0000FF',
+                                    fillOpacity: 0, // Hacer el relleno invisible
+                                    map: map,
+                                    center: ubicacion,
+                                    radius: 50 // Radio del círculo en metros
+                                });
+
+
+                                // Obtener la ubicación actual del usuario
+                                if (navigator.geolocation) {
+                                    navigator.geolocation.getCurrentPosition(function(position) {
+                                        var userLocation = {
+                                            lat: position.coords.latitude,
+                                            lng: position.coords.longitude
+                                        };
+
+                                        // Verificar si la ubicación del usuario está dentro del radio
+                                        if (google.maps.geometry.spherical
+                                            .computeDistanceBetween(userLocation, circle
+                                                .getCenter()) <= circle.getRadius()) {
+                                            Swal.fire({
+                                                title: '¡Has encontrado la primera ubicación!',
+                                                text: '¡Felicidades!',
+                                                icon: 'success',
+                                                confirmButtonColor: '#3085d6',
+                                                confirmButtonText: 'Aceptar'
+                                            }).then(() => {
+                                                // Realizar la solicitud para obtener la ubicación dos
+                                                return fetch(
+                                                    '/obtener-ubicacion-dos', {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            'X-CSRF-TOKEN': document
+                                                                .querySelector(
+                                                                    'meta[name="csrf-token"]'
+                                                                )
+                                                                .getAttribute(
+                                                                    'content')
+                                                        },
+                                                        body: JSON.stringify({
+                                                            ubicacion_id: 14 // ID de la ubicación dos que deseas obtener
+                                                        })
+                                                    });
+                                            }).then(response => {
+                                                if (!response.ok) {
+                                                    throw new Error(
+                                                        'Error al obtener la ubicación dos'
+                                                    );
+                                                }
+                                                return response.json();
+                                            }).then(data => {
+                                                // Mostrar la ubicación dos en el mapa
+                                                var ubicacionDos = {
+                                                    lat: parseFloat(data
+                                                        .latitud),
+                                                    lng: parseFloat(data
+                                                        .longitud)
+                                                };
+                                                var markerDos = new google.maps
+                                                    .Marker({
+                                                        position: ubicacionDos,
+                                                        map: map,
+                                                        title: 'Ubicación Dos',
+                                                        visible: false // Configurar el marcador como invisible
+                                                    });
+
+                                                var marker = new google.maps
+                                            .Marker({
+                                                    position: ubicacion,
+                                                    map: map,
+                                                    title: 'Ubicación Uno',
+                                                });
+
+                                                // Crear un cuadro de información para mostrar el título del marcador
+                                                var infoWindow = new google.maps
+                                                    .InfoWindow({
+                                                        content: marker
+                                                            .getTitle() // Obtener el título del marcador
+                                                    });
+
+                                                // Agregar un evento de clic al marcador para mostrar el cuadro de información
+                                                marker.addListener('click',
+                                                    function() {
+                                                        infoWindow.open(map,
+                                                            marker
+                                                        ); // Mostrar el cuadro de información en el mapa en la posición del marcador
+                                                    });
+
+
+                                                // Crear el círculo alrededor de la segunda ubicación
+                                                var circleDos = new google.maps
+                                                    .Circle({
+                                                        strokeColor: '#0000FF',
+                                                        strokeOpacity: 0, // Hacer el borde invisible
+                                                        strokeWeight: 2,
+                                                        fillColor: 'blue',
+                                                        fillOpacity: 1, // Hacer el relleno invisible
+                                                        map: map,
+                                                        center: ubicacionDos,
+                                                        radius: 50 // Radio del círculo en metros
+                                                    });
+
+                                                // Obtener la ubicación actual del usuario
+                                                if (navigator.geolocation) {
+                                                    navigator.geolocation
+                                                        .getCurrentPosition(
+                                                            function(position) {
+                                                                var userLocation = {
+                                                                    lat: position
+                                                                        .coords
+                                                                        .latitude,
+                                                                    lng: position
+                                                                        .coords
+                                                                        .longitude
+                                                                };
+
+                                                                // Verificar si la ubicación del usuario está dentro del radio
+                                                                if (google.maps
+                                                                    .geometry
+                                                                    .spherical
+                                                                    .computeDistanceBetween(
+                                                                        userLocation,
+                                                                        circleDos
+                                                                        .getCenter()
+                                                                    ) <= circleDos
+                                                                    .getRadius()) {
+                                                                    Swal.fire({
+                                                                        title: '¡Has encontrado la segunda ubicación!',
+                                                                        text: '¡Felicidades! Ya solo te queda una.',
+                                                                        icon: 'success',
+                                                                        confirmButtonColor: '#3085d6',
+                                                                        confirmButtonText: 'Aceptar'
+                                                                    }).then(
+                                                                        () => {
+                                                                            // Realizar la solicitud para obtener la ubicación tres
+                                                                            return fetch(
+                                                                                '/obtener-ubicacion-tres', {
+                                                                                    method: 'POST',
+                                                                                    headers: {
+                                                                                        'Content-Type': 'application/json',
+                                                                                        'X-CSRF-TOKEN': document
+                                                                                            .querySelector(
+                                                                                                'meta[name="csrf-token"]'
+                                                                                            )
+                                                                                            .getAttribute(
+                                                                                                'content'
+                                                                                            )
+                                                                                    },
+                                                                                    body: JSON
+                                                                                        .stringify({
+                                                                                            ubicacion_id: 15 // ID de la ubicación tres que deseas obtener
+                                                                                        })
+                                                                                }
+                                                                            );
+                                                                        }).then(
+                                                                        response => {
+                                                                            if (!
+                                                                                response
+                                                                                .ok
+                                                                            ) {
+                                                                                throw new Error(
+                                                                                    'Error al obtener la ubicación tres'
+                                                                                );
+                                                                            }
+                                                                            return response
+                                                                                .json();
+                                                                        }).then(
+                                                                        data => {
+                                                                            // Mostrar la ubicación tres en el mapa
+                                                                            var ubicacionTres = {
+                                                                                lat: parseFloat(
+                                                                                    data
+                                                                                    .latitud
+                                                                                ),
+                                                                                lng: parseFloat(
+                                                                                    data
+                                                                                    .longitud
+                                                                                )
+                                                                            };
+                                                                            var markerTres =
+                                                                                new google
+                                                                                .maps
+                                                                                .Marker({
+                                                                                    position: ubicacionTres,
+                                                                                    map: map,
+                                                                                    title: 'Ubicación Tres',
+                                                                                    visible: false // Configurar el marcador como invisible
+                                                                                });
+
+                                                                            var markerDos =
+                                                                                new google
+                                                                                .maps
+                                                                                .Marker({
+                                                                                    position: ubicacionDos,
+                                                                                    map: map,
+                                                                                    title: 'Ubicación Dos',
+                                                                                });
+
+                                                                            // Crear un cuadro de información para mostrar el título del marcador
+                                                                            var infoWindowDos =
+                                                                                new google
+                                                                                .maps
+                                                                                .InfoWindow({
+                                                                                    content: markerDos
+                                                                                        .getTitle() // Obtener el título del marcador
+                                                                                });
+
+                                                                            // Agregar un evento de clic al marcador para mostrar el cuadro de información
+                                                                            markerDos
+                                                                                .addListener(
+                                                                                    'click',
+                                                                                    function() {
+                                                                                        infoWindowDos
+                                                                                            .open(
+                                                                                                map,
+                                                                                                markerDos
+                                                                                            ); // Mostrar el cuadro de información en el mapa en la posición del marcador
+                                                                                    }
+                                                                                );
+
+
+                                                                            // Crear el círculo alrededor de la tercera ubicación
+                                                                            var circleTres =
+                                                                                new google
+                                                                                .maps
+                                                                                .Circle({
+                                                                                    strokeColor: '#0000FF',
+                                                                                    strokeOpacity: 0, // Hacer el borde invisible
+                                                                                    strokeWeight: 2,
+                                                                                    fillColor: '#0000FF',
+                                                                                    fillOpacity: 0, // Hacer el relleno invisible
+                                                                                    map: map,
+                                                                                    center: ubicacionTres,
+                                                                                    radius: 50 // Radio del círculo en metros
+                                                                                });
+
+                                                                            // Obtener la ubicación actual del usuario
+                                                                            if (navigator
+                                                                                .geolocation
+                                                                            ) {
+                                                                                navigator
+                                                                                    .geolocation
+                                                                                    .getCurrentPosition(
+                                                                                        function(
+                                                                                            position
+                                                                                        ) {
+                                                                                            var userLocation = {
+                                                                                                lat: position
+                                                                                                    .coords
+                                                                                                    .latitude,
+                                                                                                lng: position
+                                                                                                    .coords
+                                                                                                    .longitude
+                                                                                            };
+
+                                                                                            // Verificar si la ubicación del usuario está dentro del radio
+                                                                                            if (google
+                                                                                                .maps
+                                                                                                .geometry
+                                                                                                .spherical
+                                                                                                .computeDistanceBetween(
+                                                                                                    userLocation,
+                                                                                                    circleTres
+                                                                                                    .getCenter()
+                                                                                                ) <=
+                                                                                                circleTres
+                                                                                                .getRadius()
+                                                                                            ) {
+                                                                                                Swal.fire({
+                                                                                                    title: '¡Felicidades has conseguido superar la gimcana!',
+                                                                                                    text: '¡Has encontrado la tercera ubicación!',
+                                                                                                    icon: 'success',
+                                                                                                    confirmButtonColor: '#3085d6',
+                                                                                                    confirmButtonText: 'Aceptar'
+                                                                                                });
+
+                                                                                                var markerTres =
+                                                                                                    new google
+                                                                                                    .maps
+                                                                                                    .Marker({
+                                                                                                        position: ubicacionTres,
+                                                                                                        map: map,
+                                                                                                        title: 'Ubicación Tres',
+                                                                                                    });
+
+                                                                                                // Crear un cuadro de información para mostrar el título del marcador
+                                                                                                var infoWindowTres =
+                                                                                                    new google
+                                                                                                    .maps
+                                                                                                    .InfoWindow({
+                                                                                                        content: markerTres
+                                                                                                            .getTitle() // Obtener el título del marcador
+                                                                                                    });
+
+                                                                                                // Agregar un evento de clic al marcador para mostrar el cuadro de información
+                                                                                                markerTres
+                                                                                                    .addListener(
+                                                                                                        'click',
+                                                                                                        function() {
+                                                                                                            infoWindowTres
+                                                                                                                .open(
+                                                                                                                    map,
+                                                                                                                    markerTres
+                                                                                                                ); // Mostrar el cuadro de información en el mapa en la posición del marcador
+                                                                                                        }
+                                                                                                    );
+
+                                                                                            }
+                                                                                        },
+                                                                                        function() {
+                                                                                            handleLocationError
+                                                                                                (true,
+                                                                                                    infoWindow,
+                                                                                                    map
+                                                                                                    .getCenter()
+                                                                                                );
+                                                                                        }
+                                                                                    );
+                                                                            } else {
+                                                                                // El navegador no soporta la geolocalización
+                                                                                handleLocationError
+                                                                                    (false,
+                                                                                        infoWindow,
+                                                                                        map
+                                                                                        .getCenter()
+                                                                                    );
+                                                                            }
+                                                                            // Mostrar la pista obtenida en pista3
+                                                                            document
+                                                                                .getElementById(
+                                                                                    'pista3'
+                                                                                )
+                                                                                .value =
+                                                                                data
+                                                                                .Pista;
+                                                                        });
+                                                                }
+
+                                                            },
+                                                            function() {
+                                                                handleLocationError(
+                                                                    true,
+                                                                    infoWindow,
+                                                                    map
+                                                                    .getCenter()
+                                                                );
+                                                            });
+                                                } else {
+                                                    // El navegador no soporta la geolocalización
+                                                    handleLocationError(false,
+                                                        infoWindow, map
+                                                        .getCenter());
+                                                }
+
+
+
+                                                // Mostrar la pista obtenida
+                                                document.getElementById('pista2')
+                                                    .value = data.Pista;
+
+                                                // Mostrar mensaje de éxito
+                                                Swal.fire({
+                                                    title: 'El siguiente punto es...',
+                                                    text: 'Comprueba el campo pista 2 para conseguirlo',
+                                                    icon: 'success',
+                                                    confirmButtonColor: '#3085d6',
+                                                    confirmButtonText: 'Aceptar'
+                                                });
+                                            }).catch(error => {
+                                                console.error('Error:', error);
+                                                Swal.fire({
+                                                    title: 'Error',
+                                                    text: 'Ha ocurrido un error al obtener la ubicación dos.',
+                                                    icon: 'error',
+                                                    confirmButtonColor: '#3085d6',
+                                                    confirmButtonText: 'Aceptar'
+                                                });
+                                            });
+                                        }
+
+                                    }, function() {
+                                        handleLocationError(true, infoWindow, map
+                                            .getCenter());
+                                    });
+                                } else {
+                                    // El navegador no soporta la geolocalización
+                                    handleLocationError(false, infoWindow, map.getCenter());
+                                }
+
+
+                                // Mostrar la pista obtenida
+                                document.getElementById('pista1').value = data.Pista;
+
+                                // Mostrar mensaje de éxito
+                                Swal.fire({
+                                    title: 'Acabas de empezar en la Gimcana Hospitalet',
+                                    text: 'Comprueba el campo pista 1 para intentar descifrar la ubicacion.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Aceptar'
+                                });
+                            }).catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Ha ocurrido un error al cerrar la lobby o al obtener la ubicación.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Aceptar'
+                                });
+                            });
+                        }
+                    });
+                }
+            })
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbC3X4maTF6z_6nTvnCgRdFcB3wGj4b4w&callback=initMap"></script>
 
 
 

@@ -84,7 +84,14 @@ Route::get('/gimcana', [LobbieController::class, 'mostrarGimcana'])->name('gimca
 
 
 Route::post('/cerrar-lobby', [LobbieController::class, 'cerrarLobby'])->name('lobby.cerrar');
-Route::post('/primera-ubicacion', [LobbieController::class, 'obtenerPrimeraUbicacion'])->name('ubicacion.primera');
+
+Route::post('/obtener-ubicacion', [LobbieController::class, 'obtenerUbicacion'])->name('obtener-ubicacion');
+
+Route::post('/obtener-ubicacion-dos', [LobbieController::class, 'obtenerUbicacionDos'])->name('obtener-ubicacion-dos');
+
+Route::post('/obtener-ubicacion-tres', [LobbieController::class, 'obtenerUbicacionTres'])->name('obtener-ubicacion-tres');
+
+
 
 
 require __DIR__.'/auth.php';

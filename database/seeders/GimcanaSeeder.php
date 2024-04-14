@@ -16,7 +16,7 @@ class GimcanaSeeder extends Seeder
     public function run()
     {
         DB::table('gimcana')->insert([
-            'nombre_gimcana' => 'Gimcana Prueba'
+            'nombre_gimcana' => 'Gimcana Hospitalet'
         ]);
 
     }

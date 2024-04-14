@@ -27,6 +27,7 @@ class Ubicacion extends Model
     {
         return $this->hasMany(GimcanaUbicacion::class);
     }
+    
     public function gimcanas()
     {
         return $this->belongsToMany(Gimcana::class, 'gimcana_ubicaciones', 'ubicacion_id', 'gimcana_id');
